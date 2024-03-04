@@ -1,0 +1,29 @@
+.navTile {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+    background-color: var(--clr-black);
+    padding: 1rem;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    position: relative;
+    color: var(--nav-tile-color);
+    &::after {
+        opacity: 0;
+        display: block;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--nav-tile-color);
+        bottom: 0;
+        left: 0;
+        transition: opacity .3s ease;
+    }
+    &.active {
+        &::after {
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.contentBlock {
+    border-bottom: 1px solid var(--clr-dark-grey);
+    padding: 1.7rem 1.5rem;
+    position: relative;
+    &.faded {
+        opacity: 0;
+    }
+    &.centered {
+        text-align: center;
+    }
+}

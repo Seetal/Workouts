@@ -1,0 +1,17 @@
+.fade-on {
+    animation-duration: 500ms;
+    animation-delay: var(--fade-delay);
+    animation-name: fadeOn;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+}

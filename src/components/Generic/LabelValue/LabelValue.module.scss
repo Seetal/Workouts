@@ -1,0 +1,13 @@
+.labelValue {
+    display: flex;
+    flex-direction: column;
+    &__label {
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+    &__value {
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 2.4rem;
+    }
+}

@@ -1,0 +1,19 @@
+.radio {
+    &__radio {}
+    &__label {
+        display: block;
+        background-color: var(--clr-dark-grey);
+        border-bottom: 1px solid var(--clr-dark-grey);
+        border-top: 1px solid var(--clr-dark-grey);
+        padding: 0.7rem;
+        border-radius: 0.2rem;
+        line-height: 1rem;
+        text-align: center;
+        .radio__radio:checked + & {
+            background-color: var(--page-color, #fff);
+            color: var(--clr-black);
+            border-bottom: 1px solid var(--clr-shine);
+            border-top: 1px solid var(--clr-shadow);
+        }
+    }
+}

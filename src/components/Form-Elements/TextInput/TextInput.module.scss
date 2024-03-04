@@ -1,0 +1,32 @@
+.textInput {
+    border: 0;
+    background-color: var(--clr-dark-grey);
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.2rem;
+    color: var(--clr-white);
+    font-weight: 400;
+    width: 100%;
+    &:focus-visible {
+        outline: 2px solid var(--page-color, #fff);
+    }
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    &__label {
+        display: block;
+        font-size: 1rem;
+        font-family: 'Aleo', sans-serif;
+        font-weight: 500;
+        color: var(--page-color, #fff);
+        margin-bottom: 0.5rem;
+    }
+    &__validation {
+        background-color: var(--clr-red);
+        color: var(--clr-black);
+        font-size: 0.875rem;
+        padding: 0 0.4rem;
+        border-radius: 0.2rem;
+    }
+}
