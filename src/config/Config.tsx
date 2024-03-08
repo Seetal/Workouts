@@ -3,22 +3,26 @@ export const Config = {
         {
             label: 'Home',
             textColor: 'red',
-            to: "/"
+            to: "/",
+            id: 1
         },
         {
             label: 'Intervals',
             textColor: 'green',
-            to: "/intervals"
+            to: "/intervals",
+            id: 2
         },
         {
             label: 'Workouts',
             textColor: 'blue',
-            to: "/workouts"
+            to: "/workouts",
+            id: 3
         },
         {
             label: 'Stats',
             textColor: 'orange',
-            to: "/stats"
+            to: "/stats",
+            id: 4
         }
     ],
     newInterval: {
@@ -26,5 +30,8 @@ export const Config = {
         maxRest: 60,
         maxRounds: 12,
         maxSets: 12
-    }
+    },
+    getReadyTime: 10,
+    setRestTime: 60,
+    coolDownTime: 3
 }

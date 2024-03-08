@@ -10,6 +10,7 @@ import StatsPage from './pages/StatsPage'
 import NewWorkout from './pages/NewWorkout'
 import NewInterval from './pages/NewInterval/NewInterval'
 import { IntervalsContextProvider } from './context/IntervalsContext'
+import IntervalWorkout from './pages/IntervalWorkout/IntervalWorkout'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "intervals/new",
         element: <NewInterval />
+      },
+      {
+        path: "intervals/:id",
+        element: <IntervalWorkout />
       },
       {
         path: "workouts",

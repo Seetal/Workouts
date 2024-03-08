@@ -1,7 +1,6 @@
 import styles from './RadioList.module.scss';
 import Radio from '../Radio/Radio';
 import { useCreateRadioData } from '../../../hooks/useCreateRadioData';
-import { nanoid } from 'nanoid';
 
 type NewIntervalType = {
     value: string 

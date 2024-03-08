@@ -1,17 +1,19 @@
 import ContentBlock from "../components/Generic/ContentBlock/ContentBlock";
 import IntervalItem from "../components/Intervals/IntervalItem/IntervalItem";
 import { Link } from "react-router-dom";
-import { nanoid } from "nanoid";
 import { useContext } from "react";
 import { IntervalsContext } from "../context/IntervalsContext";
+import { sortByDate } from "../utilities/SortByDate";
 
 const IntervalsPage = () => {
 
     const { savedIntervals } = useContext(IntervalsContext)
-    const intervals = savedIntervals?.map((item, i) => {
+    
+    const dateSortedIntervals = sortByDate(savedIntervals);
+    const intervals = dateSortedIntervals?.map((item, i) => {
         const currentDelay = 200 * i;
         return (
-            <ContentBlock key={nanoid()} isCentered={false} isFadeOn={true} fadeDelay={currentDelay}>
+            <ContentBlock key={item.id} isCentered={false} isFadeOn={true} fadeDelay={currentDelay}>
                 <IntervalItem {...item} />
             </ContentBlock>
         )

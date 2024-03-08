@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+
 type Props = {
     name: string
     option: number
@@ -11,7 +13,7 @@ export const useCreateRadioData = ({ name, option, accumulator }: Props) => {
         const newOptionItem = {
             label: (i + accumulator).toString(),
             id: `${name}${i}`,
-            keyId: crypto.randomUUID()
+            keyId: nanoid()
         }
         data.push(newOptionItem);
     }

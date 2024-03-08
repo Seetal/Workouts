@@ -4,3 +4,29 @@ body {
     font-optical-sizing: auto;
     color: var(--clr-white);
 }
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes conic-effect {
+    0% {
+      --angle: var(--startDegrees);
+    }
+  
+    100% {
+      --angle: var(--endDegrees);
+    }
+}
+
+@keyframes conic-effect-b {
+    0% {
+      --angle: var(--startDegrees);
+    }
+  
+    100% {
+      --angle: var(--endDegrees);
+    }
+}

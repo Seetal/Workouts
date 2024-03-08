@@ -4,6 +4,7 @@ import styles from './Modal.module.scss';
 const Modal = ({ children }: { children: JSX.Element }) => {
     const modalRef = useRef(null)
 
+    // create context to control modal
     useEffect(() => {
         const fucusableElements =  modalRef.current?.querySelectorAll('a[href], button');
         console.log(fucusableElements);

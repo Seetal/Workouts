@@ -1,11 +1,10 @@
 import NavTile from '../NavTile/NavTile';
 import styles from './Nav.module.scss';
 import { Config } from '../../../config/Config';
-import { nanoid } from 'nanoid';
 
 const navElements = Config.navData.map((navItem) => {
     return (
-        <li key={nanoid()} className={styles.nav__item}>
+        <li key={navItem.id} className={styles.nav__item}>
             <NavTile to={navItem.to} textColor={navItem.textColor} label={navItem.label} />
         </li>
     )

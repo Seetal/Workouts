@@ -1,0 +1,39 @@
+.timer {
+    width: 330px;
+    height: 330px;
+    // background-color: var(--clr-black);
+    // border-radius: 50%;
+    position: relative;
+    margin: auto;
+    // padding: 1rem;
+    // box-shadow: inset 0 5px 0 var(--clr-shadow);
+    &__svg {
+        position: absolute;
+    }
+    &__circle {
+        fill: transparent;
+        stroke: var(--clr-green);
+        stroke-dasharray: 980.1769 980.1769;
+        stroke-dashoffset: 980.1769;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+    &__circleBack {
+        fill: var(--clr-light-black);
+        stroke: var(--clr-black);
+    }
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    &__time {
+        font-size: 5.375rem;
+        font-weight: 200;
+        font-variant-numeric: tabular-nums;
+    }
+}

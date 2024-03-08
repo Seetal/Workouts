@@ -10,6 +10,8 @@ import { NewIntervalInitialData } from "../../data/NewIntervalInitialData";
 import { IntervalsContext } from "../../context/IntervalsContext";
 import { IntervalType } from "../../types/IntervalType";
 import DuplicateInterval from "../../components/Intervals/DuplicateInterval/DuplicateInterval";
+import { generateCode } from "./NewInterval.helpers";
+import { nanoid } from "nanoid";
 
 
 const NewInterval = () => {
@@ -30,13 +32,16 @@ const NewInterval = () => {
     const addHandler = () => {
         let counter = 0;
         const newIntervalValues: IntervalType = {
+            id: '',
             name: '',
             lastUsed: 'Not used',
+            created: '',
             work: 0,
             rest: 0,
             rounds: 0,
             sets: 0,
-            code: ''
+            code: '',
+            isNew: true
         };
         for (const [key, value] of Object.entries(newIntervalData)) {
             if(!value.valid) {
@@ -50,14 +55,14 @@ const NewInterval = () => {
             }
         }
         if (counter === 5) {
-            const addZero = (value: number) => {
-                const updatedValue = value < 10 ? `0${value}`: `${value}`;
-                return updatedValue;
-            }
-            const intervalCode = `${addZero(newIntervalValues.work)}${addZero(newIntervalValues.rest)}${addZero(newIntervalValues.rounds)}${addZero(newIntervalValues.sets)}`;
+            const intervalCode = generateCode(
+                {work: newIntervalValues.work, rest: newIntervalValues.rest, rounds: newIntervalValues.rounds, sets: newIntervalValues.sets}
+            )
             newIntervalValues.code = intervalCode;
+            newIntervalValues.id = nanoid();
+            const date = new Date();
+            newIntervalValues.created = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             const duplicateCheck = savedIntervals.find((interval) => interval.code === intervalCode);
-            console.log('Duplicate', duplicateCheck);
             if (!duplicateCheck) {
                 handleAddInterval(newIntervalValues);
                 setIntervalSubmitted(true);

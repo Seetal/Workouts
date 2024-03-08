@@ -1,4 +1,6 @@
 export type IntervalType = {
+    id: string;
+    created: string;
     name: string;
     lastUsed: string;
     work: number;
@@ -6,4 +8,5 @@ export type IntervalType = {
     rounds: number;
     sets: number;
     code: string;
+    isNew: boolean;
 }
