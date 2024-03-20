@@ -1,96 +1,157 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import styles from './Timer.module.scss';
+import { getTimerColor } from "../../../pages/IntervalWorkout/IntervalWorkout.helpers";
+import TimerDetails from "../TimerDetails/TimerDetails";
+import PauseTimer from "../PauseTimer/PauseTimer";
+import { TimingArray } from "../../../types/TimingArrayType";
+import { ModalContext } from "../../Generic/Modal/ModalContext";
 
-type TimingArray = {
-    name: string;
-    time: number;
-    currentTime: number;
-    round: number;
-    set: number;
-    curve: number;
-    currentCurve: number;
+type Props = {
+    timingArray: TimingArray[]; 
+    rounds: number; 
+    sets: number;
+    setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Timer = ({timingArray}: {timingArray: TimingArray[]}) => {
-    const [intervalId, setIntervalId] = useState<typeof setTimeout | null>(null);
-    const [currentTimingArrayItem, setCurrentTimingArrayItem] = useState(0);
-    const [currentTime, setCurrentTime] = useState(timingArray[0]);
-    const [finished, setFinished] = useState(false);
-    const [started, setStarted] = useState(false);
-
+const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
+    const {handleFadeOn} = useContext(ModalContext);
+    const [intervalId, setIntervalId] = useState<number>();
+    const [currentTimeDetails, setCurrentTimeDetails] = useState({
+        currentArrayItem: 0,
+        currentTimeItem: timingArray[0]
+    })
+    const [status, setStatus] = useState({ started: false, paused: false });
+    const timerRef = useRef(null);
+    
     const decrementTime = () => {
-        setCurrentTime((prevTime) => {
+        setCurrentTimeDetails((prevState) => {
             return {
-                ...prevTime, currentTime: prevTime.currentTime - 1, currentCurve: prevTime.currentCurve - prevTime.curve
+                ...prevState, 
+                currentTimeItem: {
+                    ...prevState.currentTimeItem,
+                    currentTime: prevState.currentTimeItem.currentTime - 1,
+                    currentCurve: prevState.currentTimeItem.currentCurve - prevState.currentTimeItem.curve
+                }
             }
         })
     };
-    console.log(timingArray);
+
     const createTimeout = () => {
-        setIntervalId(setInterval(decrementTime, 1000));
+        const timer = window.setInterval(decrementTime, 1000);
+        setIntervalId(timer);
     }
+
     const handleStart = () => {
-        setStarted(true);
+        setStatus((prevState) => {
+            return {
+                ...prevState, started: true
+            }
+        });
         createTimeout();
     }
+
+    const handlePause = () => {
+        clearInterval(intervalId);
+        handleFadeOn();
+        setStatus((prevState) => {
+            return {
+                ...prevState, paused: true
+            }
+        })
+    }
+
+    const handleResume = () => {
+        timerRef.current.classList.add(`zoomIn`);
+        setStatus((prevState) => {
+            return {
+                ...prevState, paused: false
+            }
+        });
+        createTimeout();
+    }
+
+    const handleQuit = () => {
+        clearInterval(intervalId);
+        setIsFinished(true);
+    }
+
     useEffect(() => {
         const clearCurrentInterval = () => {
             clearInterval(intervalId);
         }
-        if(currentTime.currentTime === 0 && currentTime.name === 'Cooldown') {
+        if(currentTimeDetails.currentTimeItem.currentTime === -1 && currentTimeDetails.currentTimeItem.name === 'Cooldown') {
             clearCurrentInterval();
-            setFinished(true);
-        } else if(currentTime.currentTime === -1) {
+            setStatus((prevState) => {
+                return {
+                    ...prevState, started: false
+                }
+            });
+            setIsFinished(true);
+        } else if(currentTimeDetails.currentTimeItem.currentTime === -1) {
             clearCurrentInterval();
-            setCurrentTimingArrayItem(currentTimingArrayItem + 1);
-            setCurrentTime(timingArray[currentTimingArrayItem + 1]);
+            setCurrentTimeDetails((prevState) => {
+                return {
+                    ...prevState, 
+                    currentArrayItem: prevState.currentArrayItem + 1,
+                    currentTimeItem: timingArray[prevState.currentArrayItem + 1]
+                }
+            })
             createTimeout();
         }
-    }, [currentTime, intervalId])
+    }, [currentTimeDetails, intervalId])
 
     const curveStyle = {
-        'stroke-dashoffset': `${currentTime.currentCurve}`,
-        transition: `${currentTime.currentTime === currentTime.time ? "" : "stroke-dashoffset .5s ease, opacity .3s ease .7s"}`,
-        opacity: `${currentTime.currentTime === 0 ? "0" : "1"}`
+        'strokeDashoffset': `${currentTimeDetails.currentTimeItem.currentCurve}`,
+        transition: `${currentTimeDetails.currentTimeItem.currentTime === currentTimeDetails.currentTimeItem.time ? "" : "stroke-dashoffset .5s ease, opacity .3s ease .7s"}`,
+        opacity: `${currentTimeDetails.currentTimeItem.currentTime === 0 ? "0" : "1"}`
     }
 
+    const timerColor = getTimerColor(currentTimeDetails.currentTimeItem.name);
+
+    
     return (
-        <>
-            <div className={styles.timer}>
+        <div style={timerColor}>
+            <div className={`${styles.timer} ${status.paused && 'zoomOut'}`} ref={timerRef}>
                 <svg
                     className={styles.timer__svg}
-                    width="330"
-                    height="330">
+                    width="280"
+                    height="280">
                     <circle
                         className={styles.timer__circleBack}
-                        stroke-width="16"
-                        r="156"
-                        cx="165"
-                        cy="165"/>
+                        strokeWidth="12"
+                        r="132"
+                        cx="140"
+                        cy="140"/>
                     <circle
                         style={curveStyle}
                         className={styles.timer__circle}
-                        stroke-width="16"
-                        r="156"
-                        cx="165"
-                        cy="165"/>
+                        strokeWidth="12"
+                        r="132"
+                        cx="140"
+                        cy="140"/>
                     
                 </svg>
                 <div className={styles.timer__inner}>
-                    {!started && <button className="button button--large bgGreen" onClick={handleStart}>Start</button>}
-                    {started && 
+                    {!status.started && <button className="button button--large bgGreen" onClick={handleStart}>Start</button>}
+                    {status.started && 
                         <>
-                            <p className={styles.timer__time}>{currentTime.currentTime}</p>
-                            <p>{currentTime.name}</p>
+                            <p className={styles.timer__time}>{currentTimeDetails.currentTimeItem.currentTime}</p>
+                            <p className={styles.timer__timeLabel}>{currentTimeDetails.currentTimeItem.name}</p>
                         </>
                     }
                 </div>
             </div>
-            
-            <p>Round {currentTime.round}</p>
-            <p>Set {currentTime.set}</p>
-            {finished && <p>Finished</p>}
-        </>
+            {status.started && 
+                <>
+                    <TimerDetails 
+                        currentRound={currentTimeDetails.currentTimeItem.round} 
+                        rounds={rounds} 
+                        currentSet={currentTimeDetails.currentTimeItem.set} 
+                        sets={sets} />
+                    <PauseTimer handlePause={handlePause} handleResume={handleResume} handleQuit={handleQuit} isPaused={status.paused} timerRef={timerRef} />
+                </>
+            }
+        </div>
     )
 }
 

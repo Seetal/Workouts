@@ -18,12 +18,12 @@ export const Config = {
             to: "/workouts",
             id: 3
         },
-        {
-            label: 'Stats',
-            textColor: 'orange',
-            to: "/stats",
-            id: 4
-        }
+        // {
+        //     label: 'Stats',
+        //     textColor: 'orange',
+        //     to: "/stats",
+        //     id: 4
+        // }
     ],
     newInterval: {
         maxWork: 60,
@@ -32,6 +32,7 @@ export const Config = {
         maxSets: 12
     },
     getReadyTime: 10,
-    setRestTime: 60,
-    coolDownTime: 3
+    setRestTime: 3,
+    coolDownTime: 3,
+    timerCircumference: 829.38
 }

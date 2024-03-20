@@ -2,8 +2,12 @@ import styles from './IntervalItem.module.scss'
 import LabelValue from '../../Generic/LabelValue/LabelValue';
 import { Link } from 'react-router-dom';
 import { IntervalType } from '../../../types/IntervalType';
+import { lastUsedFormatted } from './IntervalItem.helpers';
 
 const IntervalItem = ({ id, name, lastUsed, work, rest, rounds, sets, created, isNew }: IntervalType) => {
+
+    const formattedDate = lastUsedFormatted(lastUsed);
+
     return (
         <Link to={`/intervals/${id}`} className={styles.intervalItem} aria-labelledby={id}>
             <header className={styles.intervalItem__header}>
@@ -11,7 +15,7 @@ const IntervalItem = ({ id, name, lastUsed, work, rest, rounds, sets, created, i
                     {isNew && <span className={styles.intervalItem__new}>New</span>}
                     {name} 
                 </h2>
-                <p className={styles.intervalItem__lastUsed}>Last used: {lastUsed}</p>
+                <p className={styles.intervalItem__lastUsed}>Last used: {formattedDate}</p>
             </header>
             <dl className={styles.intervalItem__list}>
                 <LabelValue label='Work' value={work} color='Green' />

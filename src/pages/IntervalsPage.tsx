@@ -7,8 +7,7 @@ import { sortByDate } from "../utilities/SortByDate";
 
 const IntervalsPage = () => {
 
-    const { savedIntervals } = useContext(IntervalsContext)
-    
+    const { savedIntervals } = useContext(IntervalsContext);
     const dateSortedIntervals = sortByDate(savedIntervals);
     const intervals = dateSortedIntervals?.map((item, i) => {
         const currentDelay = 200 * i;

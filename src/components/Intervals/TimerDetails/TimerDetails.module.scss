@@ -1,0 +1,18 @@
+.timerDetails {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    &__label {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--timer-color);
+    }
+    &__value {
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 2.5rem;
+    }
+}

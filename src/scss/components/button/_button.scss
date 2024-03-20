@@ -14,4 +14,9 @@
         font-size: 1.2rem;
         padding: 0.7rem 2rem;
     }
+    &--alt {
+        border: 2px solid var(--clr-white);
+        color: var(--clr-white);
+        background-color: transparent;
+    }
 }

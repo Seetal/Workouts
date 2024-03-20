@@ -14,6 +14,12 @@ export const Main: Story = {
     args: {
         label: 'Text Input Label',
         id: 'textInputId',
-        name: 'textInput'
+        name: 'textInput',
+        newIntervalData: {
+            isValidationVisible: true,
+            validationText: 'Validation text',
+            value: 'Sample text',
+            valid: false
+        }
     }
 }

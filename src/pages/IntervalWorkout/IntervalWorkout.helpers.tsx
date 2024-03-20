@@ -3,7 +3,7 @@ import { IntervalType } from "../../types/IntervalType";
 
 export const generateTimingArray = (currentInterval: IntervalType) => {
     const generateCurveDistance = (time: number) => {
-        const degrees = 980.1769 / time;
+        const degrees = Config.timerCircumference / time;
         return degrees;
     }
     const timingArray = [
@@ -14,7 +14,7 @@ export const generateTimingArray = (currentInterval: IntervalType) => {
             round: 0,
             set: 0,
             curve: generateCurveDistance(Config.getReadyTime),
-            currentCurve: 980.1769
+            currentCurve: Config.timerCircumference
         }
     ];
     for (let i = 0; i < currentInterval.sets; i++) {
@@ -26,7 +26,7 @@ export const generateTimingArray = (currentInterval: IntervalType) => {
                 round: j + 1,
                 set: i + 1,
                 curve: generateCurveDistance(currentInterval.work),
-                currentCurve: 980.1769
+                currentCurve: Config.timerCircumference
             });
             if(j != currentInterval.rounds - 1) {
                 timingArray.push({
@@ -36,7 +36,7 @@ export const generateTimingArray = (currentInterval: IntervalType) => {
                     round: j + 1,
                     set: i + 1,
                     curve: generateCurveDistance(currentInterval.rest),
-                    currentCurve: 980.1769
+                    currentCurve: Config.timerCircumference
                 });
             }
         }
@@ -48,7 +48,7 @@ export const generateTimingArray = (currentInterval: IntervalType) => {
                 round: currentInterval.rounds,
                 set: i + 1,
                 curve: generateCurveDistance(Config.coolDownTime),
-                currentCurve: 980.1769
+                currentCurve: Config.timerCircumference
             });
         } else {
             timingArray.push({
@@ -58,9 +58,21 @@ export const generateTimingArray = (currentInterval: IntervalType) => {
                 round: currentInterval.rounds,
                 set: i + 1,
                 curve: generateCurveDistance(Config.setRestTime),
-                currentCurve: 980.1769
+                currentCurve: Config.timerCircumference
             });
         }
     }
     return timingArray;
+}
+
+export const getTimerColor = (intervalName: string) => {
+    let timerColor;
+    if (intervalName === 'Work') {
+        timerColor = { "--timer-color": "var(--clr-green)" } as React.CSSProperties;
+    } else if (intervalName === 'Get Ready' || intervalName === 'Rest' || intervalName === 'Break') {
+        timerColor = { "--timer-color": "var(--clr-orange)" } as React.CSSProperties;
+    } else {
+        timerColor = { "--timer-color": "var(--clr-blue)" } as React.CSSProperties;
+    }
+    return timerColor;
 }

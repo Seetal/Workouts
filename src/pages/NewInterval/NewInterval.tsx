@@ -12,13 +12,21 @@ import { IntervalType } from "../../types/IntervalType";
 import DuplicateInterval from "../../components/Intervals/DuplicateInterval/DuplicateInterval";
 import { generateCode } from "./NewInterval.helpers";
 import { nanoid } from "nanoid";
+import Modal from "../../components/Generic/Modal/Modal";
+import { ModalContext } from "../../components/Generic/Modal/ModalContext";
 
+type Duplicate = {
+    isDuplicate: boolean;
+    oldItem: null | IntervalType;
+    newItem: null | IntervalType;
+}
 
 const NewInterval = () => {
     const { savedIntervals, handleAddInterval } = useContext(IntervalsContext);
+    const { handleFadeOn } = useContext(ModalContext);
     const [newIntervalData, setNewIntervalData] = useState(NewIntervalInitialData);
-    const [duplicate, setDuplicate] =  useState(false);
-    const [intervalSubmitted, setIntervalSubmitted] = useState(false);
+    const [duplicate, setDuplicate] =  useState<Duplicate>({ isDuplicate: false, oldItem: null, newItem: null });
+    const [intervalSubmitted, setIntervalSubmitted] = useState({isSubmitted: false, addedInterval: {} });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof typeof newIntervalData;
@@ -65,11 +73,16 @@ const NewInterval = () => {
             const duplicateCheck = savedIntervals.find((interval) => interval.code === intervalCode);
             if (!duplicateCheck) {
                 handleAddInterval(newIntervalValues);
-                setIntervalSubmitted(true);
+                setIntervalSubmitted({ isSubmitted: true, addedInterval: newIntervalValues });
             } else {
-                setDuplicate(true);
+                handleFadeOn();
+                setDuplicate({ isDuplicate: true, oldItem: duplicateCheck, newItem: newIntervalValues});
             }
         }
+    }
+
+    const handleCloseModal = () => {
+        setDuplicate({ isDuplicate: false, oldItem: null, newItem: null});
     }
 
     const pageColor = { '--page-color': 'var(--clr-green)' } as React.CSSProperties;
@@ -77,7 +90,7 @@ const NewInterval = () => {
     return (
         <main className={styles.newInterval} style={pageColor}>
             {
-                intervalSubmitted ? <IntervalSubmitted /> :
+                intervalSubmitted.isSubmitted ? <IntervalSubmitted newInterval={intervalSubmitted.addedInterval}/> :
                 <>
                     <ContentBlock isCentered={false}>
                         <TextInput label="New interval name" id="intervalName" name="name" newIntervalData={newIntervalData.name} handler={handleChange}/>
@@ -98,7 +111,11 @@ const NewInterval = () => {
                 </>
             }
             {
-                duplicate && <DuplicateInterval />
+                duplicate.isDuplicate && (
+                    <Modal handleClose={handleCloseModal} title={'Duplicate Interval'}>
+                        <DuplicateInterval oldItem={duplicate.oldItem} newItem={duplicate.newItem} submitted={setIntervalSubmitted} closeModal={handleCloseModal} />
+                    </Modal>
+                )
             }
         </main>
     )

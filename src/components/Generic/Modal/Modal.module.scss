@@ -29,4 +29,44 @@
         top: -1rem;
         padding: 0.5rem;
     }
+    &__title {
+        font-size: 1.25rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 400;
+    }
+}
+
+.fadeModalOn {
+    animation-duration: 300ms;
+    animation-name: fadeModalOn;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeModalOn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+}
+
+.fadeModalOff {
+    animation-duration: 300ms;
+    animation-name: fadeModalOff;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeModalOff {
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
 }

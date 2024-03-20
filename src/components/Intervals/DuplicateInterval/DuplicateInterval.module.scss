@@ -1,0 +1,11 @@
+.duplicateInterval {
+    text-align: center;
+    font-weight: 200;
+    &__name {
+        color: var(--clr-green);
+        font-weight: 600;
+    }
+    p {
+        margin-bottom: 1.5rem;
+    }
+}
