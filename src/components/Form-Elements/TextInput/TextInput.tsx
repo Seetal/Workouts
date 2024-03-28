@@ -1,28 +1,23 @@
 import styles from './TextInput.module.scss';
 
-type NewIntervalType = {
-    value: string 
-    valid: boolean
-    validationText: string
-    isValidationVisible: boolean
-}
-
 type Props = {
-    label: string
-    id: string
-    name: string
+    label: string;
+    id: string;
+    name: string;
     handler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    newIntervalData: NewIntervalType
+    isValidationVisible?: boolean;
+    value: string;
+    validationText?: string;
 }
 
-const TextInput = ({ label, id, name, newIntervalData, handler }: Props) => {
+const TextInput = ({ label, id, name, isValidationVisible = false, validationText = 'Not Valid', value, handler }: Props) => {
     return (
         <>
             <header className={styles.textInput__header}>
                 <label className={styles.textInput__label} htmlFor={id}>{label}</label>
-                {newIntervalData.isValidationVisible && <p className={styles.textInput__validation}>{newIntervalData.validationText}</p>}
+                {isValidationVisible && <p className={styles.textInput__validation}>{validationText}</p>}
             </header>
-            <input className={styles.textInput} type="text" id={id} name={name} value={newIntervalData.value} onChange={handler} />
+            <input className={styles.textInput} type="text" id={id} name={name} value={value} onChange={handler} />
         </>
     )
 }

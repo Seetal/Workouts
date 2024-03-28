@@ -1,0 +1,22 @@
+.newExercise {
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 0.5rem;
+    }
+    &__btn {
+        background-color: var(--clr-dark-grey);
+        color: var(--clr-white);
+        border-radius: 0.2rem;
+        border: 0;
+        line-height: 1rem;
+        text-align: center;
+        padding: 0.7rem;
+    }
+    &__input {
+        margin-bottom: 1rem;
+    }
+}

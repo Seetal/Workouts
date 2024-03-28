@@ -5,6 +5,7 @@ import { IntervalType } from "../types/IntervalType";
 type IntervalsContextType = {
     savedIntervals: IntervalType[];
     handleAddInterval: (newInterval: IntervalType) => void;
+    handleUpdateInterval: (updatedInterval: IntervalType) => void;
 }
 
 const IntervalsContext = createContext<IntervalsContextType>({
@@ -20,7 +21,8 @@ const IntervalsContext = createContext<IntervalsContextType>({
         code: '20100303',
         isNew: false
     }],
-    handleAddInterval: () => {}
+    handleAddInterval: () => {},
+    handleUpdateInterval: () => {}
 });
 
 const IntervalsContextProvider = ({ children }: { children: JSX.Element }) => {
@@ -39,11 +41,24 @@ const IntervalsContextProvider = ({ children }: { children: JSX.Element }) => {
         })
     }
 
+    const handleUpdateInterval = (updatedInterval: IntervalType) => {
+        const newDate = new Date();
+        //const month = newDate.getMonth() < 10 ? `0${newDate.getMonth()}` : newDate.getMonth();
+        const lastUsed = `${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()}`
+        console.log('last used', lastUsed);
+        setSavedIntervals(savedIntervals.map((interval) => {
+            if(interval.id === updatedInterval.id) {
+                return { ...interval, isNew: false, lastUsed: lastUsed}
+            }
+            return interval;
+        }))
+    }
+
     return (
-        <IntervalsContext.Provider value={{ savedIntervals, handleAddInterval }}>
+        <IntervalsContext.Provider value={{ savedIntervals, handleAddInterval, handleUpdateInterval }}>
             {children}
         </IntervalsContext.Provider>
     )
-}
+};
 
-export { IntervalsContextProvider, IntervalsContext }
+export { IntervalsContextProvider, IntervalsContext };

@@ -3,6 +3,6 @@ export const lastUsedFormatted = (lastUsed: string) => {
         return 'Not used';
     } else {
         const newDate = new Date(lastUsed);
-        return `${newDate.getDate()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
+        return `${newDate.getDate()}/${newDate.getMonth() + 1}/${newDate.getFullYear()}`;
     }
 }

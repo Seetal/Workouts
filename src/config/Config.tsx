@@ -32,7 +32,7 @@ export const Config = {
         maxSets: 12
     },
     getReadyTime: 10,
-    setRestTime: 3,
-    coolDownTime: 3,
+    setRestTime: 60,
+    coolDownTime: 10,
     timerCircumference: 829.38
 }

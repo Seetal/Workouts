@@ -10,12 +10,17 @@ import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 const IntervalWorkout = () => {
 
     const [ isFinished, setIsFinished ] = useState(false);
-    const { savedIntervals } = useContext(IntervalsContext);
+    const { savedIntervals, handleUpdateInterval } = useContext(IntervalsContext);
     const { id } = useParams();
 
     const currentInterval = savedIntervals.find(intervalItem => intervalItem.id === id) as IntervalType;
 
     const timingArray = generateTimingArray(currentInterval);
+
+    const finishedHandler = () => {
+        setIsFinished(true);
+        handleUpdateInterval(currentInterval);
+    }
 
     return (
         <>
@@ -26,13 +31,14 @@ const IntervalWorkout = () => {
                         timingArray={timingArray} 
                         sets={currentInterval?.sets} 
                         rounds={currentInterval?.rounds} 
-                        setIsFinished={setIsFinished} 
+                        setIsFinished={finishedHandler} 
                     />
                 </>
             }
             {isFinished &&
                 <ContentBlock isCentered={true}>
-                    <h2 className="title-1">Finished</h2>
+                    <h2 className="title-1">Well done!</h2>
+                    <p>Workout complete.</p>
                 </ContentBlock>
             }
         </>

@@ -5,12 +5,16 @@ import TimerDetails from "../TimerDetails/TimerDetails";
 import PauseTimer from "../PauseTimer/PauseTimer";
 import { TimingArray } from "../../../types/TimingArrayType";
 import { ModalContext } from "../../Generic/Modal/ModalContext";
+//@ts-ignore
+import useSound from 'use-sound';
+import beepSfx from '../../../assets/sounds/beep.mp3';
+import boopSfx from '../../../assets/sounds/boop.mp3';
 
 type Props = {
     timingArray: TimingArray[]; 
     rounds: number; 
     sets: number;
-    setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsFinished: () => void;
 }
 
 const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
@@ -21,8 +25,12 @@ const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
         currentTimeItem: timingArray[0]
     })
     const [status, setStatus] = useState({ started: false, paused: false });
-    const timerRef = useRef(null);
+    const timerRef = useRef<HTMLDivElement>(null);
     
+    const [playBeep] = useSound(beepSfx);
+    const [playBoop] = useSound(boopSfx);
+
+
     const decrementTime = () => {
         setCurrentTimeDetails((prevState) => {
             return {
@@ -61,7 +69,7 @@ const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
     }
 
     const handleResume = () => {
-        timerRef.current.classList.add(`zoomIn`);
+        timerRef.current?.classList.add(`zoomIn`);
         setStatus((prevState) => {
             return {
                 ...prevState, paused: false
@@ -72,12 +80,18 @@ const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
 
     const handleQuit = () => {
         clearInterval(intervalId);
-        setIsFinished(true);
+        setIsFinished();
     }
 
     useEffect(() => {
         const clearCurrentInterval = () => {
             clearInterval(intervalId);
+        }
+        if(currentTimeDetails.currentTimeItem.currentTime < 4 && currentTimeDetails.currentTimeItem.currentTime > 0) {
+            playBeep();
+        }
+        if(currentTimeDetails.currentTimeItem.currentTime === 0) {
+            playBoop();
         }
         if(currentTimeDetails.currentTimeItem.currentTime === -1 && currentTimeDetails.currentTimeItem.name === 'Cooldown') {
             clearCurrentInterval();
@@ -86,7 +100,7 @@ const Timer = ({timingArray, rounds, sets, setIsFinished}: Props) => {
                     ...prevState, started: false
                 }
             });
-            setIsFinished(true);
+            setIsFinished();
         } else if(currentTimeDetails.currentTimeItem.currentTime === -1) {
             clearCurrentInterval();
             setCurrentTimeDetails((prevState) => {

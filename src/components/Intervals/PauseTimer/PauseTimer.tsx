@@ -7,7 +7,7 @@ type Props = {
     handleResume: () => void;
     handleQuit: () => void;
     isPaused: boolean;
-    timerRef: HTMLDivElement;
+    timerRef: React.RefObject<HTMLDivElement>;
 }
 
 const PauseTimer = ({handlePause, handleResume, isPaused, timerRef, handleQuit}: Props) => {
@@ -15,7 +15,7 @@ const PauseTimer = ({handlePause, handleResume, isPaused, timerRef, handleQuit}:
     const { handleFadeOff } = useContext(ModalContext);
 
     const zoomIn = () => {
-        timerRef.current.classList.add(`zoomIn`);
+        timerRef.current?.classList.add(`zoomIn`);
     };
 
     const handleResumeButton = () => {

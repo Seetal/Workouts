@@ -93,7 +93,14 @@ const NewInterval = () => {
                 intervalSubmitted.isSubmitted ? <IntervalSubmitted newInterval={intervalSubmitted.addedInterval}/> :
                 <>
                     <ContentBlock isCentered={false}>
-                        <TextInput label="New interval name" id="intervalName" name="name" newIntervalData={newIntervalData.name} handler={handleChange}/>
+                        <TextInput 
+                            label="New interval name" 
+                            id="intervalName" 
+                            name="name" 
+                            isValidationVisible={newIntervalData.name.isValidationVisible} 
+                            validationText={newIntervalData.name.validationText} 
+                            value={newIntervalData.name.value}  
+                            handler={handleChange}/>
                     </ContentBlock>
                     <ContentBlock isCentered={false}>
                         <RadioList option={Config.newInterval.maxWork} accumulator={5} name="work" legend="Work length (secs)" handler={handleChange} newIntervalData={newIntervalData.work}/>

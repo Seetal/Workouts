@@ -2,12 +2,12 @@ import styles from './ContentBlock.module.scss'
 
 type Props = {
     children: React.ReactNode
-    isCentered: boolean
+    isCentered?: boolean
     isFadeOn?: boolean
     fadeDelay?: number
 }
 
-const ContentBlock = ( { children, isCentered, isFadeOn = false, fadeDelay }: Props ) => {
+const ContentBlock = ( { children, isCentered = false, isFadeOn = false, fadeDelay }: Props ) => {
 
 
     return (
