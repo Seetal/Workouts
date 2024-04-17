@@ -7,11 +7,13 @@ import Homepage from './pages/Homepage'
 import IntervalsPage from './pages/IntervalsPage'
 import WorkoutsPage from './pages/WorkoutsPage'
 import StatsPage from './pages/StatsPage'
-import NewWorkout from './pages/NewWorkout'
+import NewWorkout from './pages/NewWorkout/NewWorkout'
 import NewInterval from './pages/NewInterval/NewInterval'
+import Workout from './pages/Workout/Workout'
 import { IntervalsContextProvider } from './context/IntervalsContext'
 import { ModalContextProvider } from './components/Generic/Modal/ModalContext'
 import IntervalWorkout from './pages/IntervalWorkout/IntervalWorkout'
+import { WorkoutsContextProvider } from './context/WorkoutsContext'
 
 const router = createBrowserRouter([
   {
@@ -39,8 +41,8 @@ const router = createBrowserRouter([
         element: <WorkoutsPage />,
       },
       {
-        path: "workouts/new",
-        element: <NewWorkout />
+        path: "workouts/workout",
+        element: <Workout />
       },
       {
         path: "stats",
@@ -52,10 +54,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <IntervalsContextProvider>
-      <ModalContextProvider>
-        <RouterProvider router={router} />
-      </ModalContextProvider>
-    </IntervalsContextProvider>
+    <WorkoutsContextProvider>
+      <IntervalsContextProvider>
+        <ModalContextProvider>
+          <RouterProvider router={router} />
+        </ModalContextProvider>
+      </IntervalsContextProvider>
+    </WorkoutsContextProvider>
   </React.StrictMode>,
 )

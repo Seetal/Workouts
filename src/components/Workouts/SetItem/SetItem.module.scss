@@ -1,0 +1,46 @@
+.setItem {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+    margin: 0 0 0.6rem 0;
+    &__item {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+    &__label {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--page-color);
+    }
+    &__value {
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 2.4rem;
+    }
+    &__input {
+        width: 4.5rem;
+        border: 0;
+        padding: 0.2rem 0.5rem;
+        margin-left: -0.4rem;
+        line-height: 1rem;
+        border-radius: 0.5rem;
+        font-size: 2rem;
+        font-weight: 200;
+        background-color: var(--clr-black);
+        color: var(--clr-white);
+    }
+    &__btn {
+        width: 4.5rem;
+        border: 0;
+        padding: 0.2rem 0.5rem;
+        margin-left: -0.4rem;
+        line-height: 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--clr-black);
+    }
+    &__tick {
+        display: block;
+        
+    }
+}

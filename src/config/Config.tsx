@@ -34,5 +34,7 @@ export const Config = {
     getReadyTime: 10,
     setRestTime: 60,
     coolDownTime: 10,
-    timerCircumference: 829.38
+    timerCircumference: 829.38,
+    // Number of days into months, if less than this then also show previous months workouts
+    daysThresholdPreviousWorkouts: 10
 }

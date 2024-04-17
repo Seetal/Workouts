@@ -43,7 +43,6 @@ const IntervalsContextProvider = ({ children }: { children: JSX.Element }) => {
 
     const handleUpdateInterval = (updatedInterval: IntervalType) => {
         const newDate = new Date();
-        //const month = newDate.getMonth() < 10 ? `0${newDate.getMonth()}` : newDate.getMonth();
         const lastUsed = `${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()}`
         console.log('last used', lastUsed);
         setSavedIntervals(savedIntervals.map((interval) => {

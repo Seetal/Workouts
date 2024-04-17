@@ -7,10 +7,10 @@ import { ExerciseType } from "../../../types/ExerciseType";
 import { nanoid } from 'nanoid';
 
 type Props = {
-    handleAddExercise: (name: ExerciseType) => void;
+    handleAddNewExercise: (name: ExerciseType) => void;
 }
 
-const NewExercise = ({handleAddExercise}: Props) => {
+const NewExercise = ({handleAddNewExercise}: Props) => {
 
     const [exerciseName, setExerciseName] = useState('');
 
@@ -28,11 +28,10 @@ const NewExercise = ({handleAddExercise}: Props) => {
             sets: [{
                     setNumber: 1,
                     weight: 0,
-                    reps: 0,
-                    isComplete: false
+                    reps: 0
                 }]
         }
-        handleAddExercise(newExerciseDetails);
+        handleAddNewExercise(newExerciseDetails);
     }
 
     const exerciseElements = filteredExercises.map(exercise => {

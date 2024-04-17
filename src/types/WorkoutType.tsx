@@ -1,7 +1,7 @@
 import { ExerciseType } from "./ExerciseType"
 
 export type WorkoutType = {
-    name: string;
     date: string;
+    id: string;
     exerciseList: ExerciseType[];
 }
