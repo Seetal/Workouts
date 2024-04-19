@@ -1,112 +1,92 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { WorkoutType } from "../types/WorkoutType";
+import { ActionType } from "../types/WorkoutReducerActionType";
+import { workoutsReducer } from "./WorkoutsReducer";
+import { Config } from "../config/Config";
+import { generateStorageKey } from "../utilities/GenerateStorageKey";
 
-type WorkoutContextType = {
-    savedWorkouts: WorkoutType[] | null;
-    handleAddWorkout: (newWorkout: WorkoutType) => void;
-    handleUpdateWorkout: (newWorkout: WorkoutType) => void;
-}
 
-type Set = {
-    setNumber: number;
-    weight: number;
-    reps: number;
-}
-
-type Action = {
-    type: 'addWorkout' | 'addExercise' | 'addSet' | 'updateValues';
-    payload: {
-        id: string;
-        newExercise: {
-            name: string;
-            id: string;
-            sets: Set[];
-        }
-    }
-}
-
-const WorkoutsContext = createContext<WorkoutContextType>({
-    savedWorkouts: null,
-    handleAddWorkout: () => {},
-    handleUpdateWorkout: () => {},
+const WorkoutsContext = createContext<{
+    state: WorkoutType[] | [];
+    dispatch: React.Dispatch<ActionType>;
+}>({
+    state: [],
+    dispatch: () => null
 });
 
-const reducer = (state: WorkoutType[], action: Action) => {
-    const { type, payload } = action;
-    switch (type) {
-        case 'addWorkout': {
-            const date = new Date();
-            const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            return [...state, {
-                id: payload.id,
-                date: dateString,
-                exerciseList: [payload.newExercise]
-            }]
-        }
-        case 'addExercise': {
-            return state.map(prevWorkout => {
-                return prevWorkout.id !== payload.id ? prevWorkout : {
-                    ...prevWorkout, 
-                    exerciseList: [...prevWorkout.exerciseList, payload.newExercise]
-                }
-            })
-        }
-        case 'addSet':
-            return state.map(prevWorkout => {
-                return prevWorkout.id !== payload.workoutId ? prevWorkout : {
-                    ...prevWorkout, 
-                    exerciseList: prevWorkout.exerciseList.map(exercise => {
-                        if(exercise.id === payload.exerciseId) {
-                            return { ...exercise, sets: [...exercise.sets, 
-                                {
-                                    setNumber: exercise.sets.length + 1,
-                                    weight: 0,
-                                    reps: 0,
-                                }
-                            ]}
-                        } else {
-                            return exercise;
-                        }
-                    })
-                }
-            })
-        case 'updateValues':
-            return state.map(prevWorkout => {
-                return prevWorkout.id !== payload.workoutId ? prevWorkout : {
-                    ...prevWorkout, 
-                    exerciseList: prevWorkout.exerciseList.map(exercise => {
-                        if(exercise.id === payload.exerciseId) {
-                            return { ...exercise, sets: exercise.sets.map(set => {
-                                if(set.setNumber === payload.set) {
-                                    return {...set, [payload.key]: payload.value}
-                                } else {
-                                    return set;
-                                }
-                            })}
-                        } else {
-                            return exercise;
-                        }
-                    })
-                }
-            })
 
-        default:
-            return state;
-    }
+const periodKeys = localStorage.getItem('workoutPeriodKeys');
+let periodData = {
+    keyData: [],
+    currentShowing: 0
+};
+let parsedWorkoutData = [];
+if (periodKeys) {
+    periodData.keyData = JSON.parse(periodKeys);
+    const latestWorkoutData = localStorage.getItem(periodData.keyData[0].periodkey) || '""';
+    periodData.currentShowing = 1;
+    parsedWorkoutData = JSON.parse(latestWorkoutData);
 }
+// const savedWorkouts = localStorage.getItem(currentMonthsStorageKey);
+// let workoutsData = savedWorkouts ? JSON.parse(savedWorkouts) : [];
+// console.log('current', workoutsData);
 
-const savedWorkouts = localStorage.getItem('savedWorkouts');
-const workoutsData = savedWorkouts ? JSON.parse(savedWorkouts) : [];
+// const getPreviousMonthsData = (storageKey: string) => {
+//     const previousMonthsSavedWorkouts = localStorage.getItem(storageKey);
+//     const previousMonthsWorkoutsData = previousMonthsSavedWorkouts ? JSON.parse(previousMonthsSavedWorkouts) : [];
+//     return previousMonthsWorkoutsData;
+// }
+
+// if (currentDate.getDate() < Config.daysThresholdPreviousWorkouts) {
+//     const key = currentDate.getMonth() > 0 ? 
+//     generateStorageKey(currentDate.getMonth() - 1, currentDate.getFullYear()) : 
+//     generateStorageKey(11, currentDate.getFullYear() - 1);
+//     const previousMonthsData = getPreviousMonthsData(key);
+//     workoutsData = [...workoutsData, ...previousMonthsData];
+// }
+// console.log('all', workoutsData);
 
 const WorkoutsContextProvider = ({ children }: { children: JSX.Element}) => {
-    const [state, dispatch] = useReducer(reducer, workoutsData);
+    const [state, dispatch] = useReducer(workoutsReducer, parsedWorkoutData);
+    const [periodKeysData, setPeriodKeysData] = useState(periodData);
+
+    console.log('periodKeysData', periodKeysData)
 
     useEffect(() => {
-        localStorage.setItem('savedWorkouts', JSON.stringify(state));
+        const currentDate = new Date();
+        const workoutsToSave = state.filter(item => {
+            const workoutDate = new Date(item.date);
+            const workoutMonth = workoutDate.getMonth();
+            return workoutMonth === currentDate.getMonth();
+        })
+        console.log('workoutsToSave', workoutsToSave);
+        const currentMonthsStorageKey = `workouts_${currentDate.getMonth() + 1}_${currentDate.getFullYear()}`;
+        localStorage.setItem(currentMonthsStorageKey, JSON.stringify(workoutsToSave));
+        if (periodKeysData.keyData[0].periodkey !== currentMonthsStorageKey) {
+            const newKeyData = {
+                periodkey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
+            }
+            setPeriodKeysData(prevState => {
+                return { keyData: [newKeyData, ...prevState.keyData], currentShowing: prevState.currentShowing };
+            })
+        }
     }, [state]);
 
+    const handleGetPreviousMonth = () => {
+        const previousMonthsKey = periodKeysData.keyData[periodKeysData.currentShowing].periodkey;
+        const previousMonthsData = localStorage.getItem(previousMonthsKey);
+        const previousMonthsWorkoutsData = previousMonthsData ? JSON.parse(previousMonthsData) : [];
+        dispatch({ type: 'previousMonth', payload: previousMonthsWorkoutsData });
+        setPeriodKeysData(prevState => {
+            return {
+                ...prevState, currentShowing: prevState.currentShowing + 1
+            }
+        })
+        console.log('Get Previous', previousMonthsWorkoutsData)
+    }
+
     return (
-        <WorkoutsContext.Provider value={{ state, dispatch }}>
+        <WorkoutsContext.Provider value={{ state, dispatch, periodKeysData, setPeriodKeysData, handleGetPreviousMonth }}>
             {children}
         </WorkoutsContext.Provider>
     )

@@ -1,13 +1,7 @@
-type Set = {
-    setNumber: number;
-    weight: number;
-    reps?: number;
-    time?: number;
-    isComplete: boolean;
-}
+import { SetType } from "./SetType";
 
 export type ExerciseType = {
     name: string;
-    sets: Set[];
+    sets: SetType[];
     id: string;
 }

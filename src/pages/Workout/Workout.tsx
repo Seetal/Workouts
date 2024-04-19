@@ -12,8 +12,6 @@ const Workout = () => {
     const { state, dispatch } = useContext(WorkoutsContext);
     const [ isNewExercisePanelVisible, setIsNewExercisePanelVisible ] = useState(false);
 
-    console.log(state);
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const workoutId = urlParams.get('id');
