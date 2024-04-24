@@ -1,6 +1,8 @@
 .intervalItem {
     color: var(--clr-white);
     text-decoration: none;
+    padding: 1.7rem 1.5rem;
+    display: block;
     &__header {
         display: flex;
         justify-content: space-between;
@@ -16,6 +18,18 @@
     &__list {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        position: relative;
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-right: 2px solid var(--page-color);
+            border-top: 2px solid var(--page-color);
+            right: 0;
+            top: 2rem;
+            transform: rotate(45deg);
+        }
     }
     &__lastUsed {
         color: var(--clr-grey);

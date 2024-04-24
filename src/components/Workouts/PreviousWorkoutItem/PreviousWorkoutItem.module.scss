@@ -1,3 +1,26 @@
 .prevWorkoutItem {
-    
+    display: block;
+    padding: 1.7rem 1.5rem;
+    position: relative;
+    color: var(--clr-white);
+    text-decoration: none;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-right: 2px solid var(--page-color);
+        border-top: 2px solid var(--page-color);
+        right: 1.5rem;
+        top: 2.1rem;
+        transform: rotate(45deg);
+    }
+    &__date {
+        font-size: 1.125rem;
+        font-weight: 700;
+    }
+    &__exercises {
+        padding-right: 1.5rem;
+        font-weight: 200;
+    }
 }

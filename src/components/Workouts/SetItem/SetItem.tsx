@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { WorkoutsContext } from "../../../context/WorkoutsContext";
 import styles from "./SetItem.module.scss";
+import { updateValuesToState } from "../../../context/WorkoutsHelpers";
 
 type Props = {
     set: {
@@ -14,7 +15,7 @@ type Props = {
 
 const SetItem = ({ set, exerciseId, workoutId }: Props) => {
 
-    const { dispatch } = useContext(WorkoutsContext);
+    const { savedWorkouts, setSavedWorkouts } = useContext(WorkoutsContext);
 
     const exerciseDataTemplate = {
         workoutId: workoutId,
@@ -30,7 +31,8 @@ const SetItem = ({ set, exerciseId, workoutId }: Props) => {
             key: key,
             value: value
         }
-        dispatch({ type: 'updateValues', payload: exerciseData })
+        const updatetedStateData = updateValuesToState(exerciseData, savedWorkouts);
+        setSavedWorkouts(updatetedStateData);
     }
 
     return (
@@ -40,11 +42,12 @@ const SetItem = ({ set, exerciseId, workoutId }: Props) => {
                 <p className={styles.setItem__value}>{set.setNumber}</p>
             </li>
             <li className={styles.setItem__item}>
-                <label className={styles.setItem__label} htmlFor={`weight_${exerciseId}`}>Weight</label>
+                <label className={styles.setItem__label} htmlFor={`weight_${set}`}>Weight</label>
                 <input 
                     type="number" 
                     name="weight" 
-                    id={`weight_${exerciseId}`} 
+                    id={`weight_${set}`} 
+                    inputMode="decimal"
                     className={styles.setItem__input} 
                     value={Number(set.weight).toString()} 
                     onChange={handleUpdateValues}
@@ -56,6 +59,7 @@ const SetItem = ({ set, exerciseId, workoutId }: Props) => {
                     type="number" 
                     name="reps" 
                     id={`reps_${exerciseId}`} 
+                    inputMode="decimal"
                     className={styles.setItem__input} 
                     value={Number(set.reps).toString()} 
                     onChange={handleUpdateValues}

@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { WorkoutsContext } from "../../../context/WorkoutsContext";
 import SetItem from "../SetItem/SetItem";
 import styles from './Sets.module.scss';
+import { addSetToState } from "../../../context/WorkoutsHelpers";
 
 type Props = {
     exercise: ExerciseType;
@@ -11,7 +12,7 @@ type Props = {
 
 const Sets = ({ exercise, workoutId }: Props) => {
 
-    const { dispatch } = useContext(WorkoutsContext);
+    const { savedWorkouts, setSavedWorkouts } = useContext(WorkoutsContext);
     
     const setItems = exercise.sets.map(set => {
         return <SetItem key={set.setNumber} set={set} exerciseId={exercise.id} workoutId={workoutId} />
@@ -22,7 +23,8 @@ const Sets = ({ exercise, workoutId }: Props) => {
             workoutId: workoutId,
             exerciseId: exercise.id
         }
-        dispatch({ type: 'addSet', payload: exerciseData });
+        const updatetedStateData = addSetToState(exerciseData, savedWorkouts);
+        setSavedWorkouts(updatetedStateData);
     }
 
     return (

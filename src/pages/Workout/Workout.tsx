@@ -6,10 +6,11 @@ import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 import Sets from "../../components/Workouts/Sets/Sets";
 import { ExerciseType } from "../../types/ExerciseType";
 import styles from './Workout.module.scss';
+import { addWorkoutToState, addExerciseToState } from "../../context/WorkoutsHelpers";
 
 const Workout = () => {
 
-    const { state, dispatch } = useContext(WorkoutsContext);
+    const { savedWorkouts, setSavedWorkouts, periodKeysData, setPeriodKeysData} = useContext(WorkoutsContext);
     const [ isNewExercisePanelVisible, setIsNewExercisePanelVisible ] = useState(false);
 
     const queryString = window.location.search;
@@ -20,7 +21,7 @@ const Workout = () => {
         setIsNewExercisePanelVisible(true);
     }
 
-    const currentWorkout = state.find(workoutItem => workoutItem.id === workoutId);
+    const currentWorkout = savedWorkouts.find(workoutItem => workoutItem.id === workoutId);
 
     useEffect(() => {
         if (!currentWorkout) {
@@ -33,8 +34,27 @@ const Workout = () => {
             newExercise: exerciseToAdd,
             id: workoutId
         }
-        currentWorkout ? dispatch({ type: 'addExercise', payload: exerciseData }):
-        dispatch({ type: 'addWorkout', payload: exerciseData }) ;
+        let updatetedStateData = [];
+        if (currentWorkout) {
+            updatetedStateData = addExerciseToState(exerciseData, savedWorkouts);
+        } else {
+            updatetedStateData = addWorkoutToState(exerciseData, savedWorkouts);
+            const currentDate = new Date();
+            const currentMonthsStorageKey = `workouts_${currentDate.getMonth() + 1}_${currentDate.getFullYear()}`;
+            if ((periodKeysData.keyData.length === 0) || ((periodKeysData.keyData.length > 0) && (periodKeysData.keyData[0].periodkey !== currentMonthsStorageKey))) {
+                const newKeyData = {
+                    periodkey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
+                }
+                const newLocalKeyData = [
+                    newKeyData, ...periodKeysData.keyData
+                ]
+                localStorage.setItem('workoutPeriodKeys', JSON.stringify(newLocalKeyData));
+                setPeriodKeysData(prevState => {
+                    return { keyData: [newKeyData, ...prevState.keyData], currentShowing: prevState.currentShowing + 1 };
+                })
+            }
+        }
+        setSavedWorkouts(updatetedStateData);
         setIsNewExercisePanelVisible(false);
     }
 

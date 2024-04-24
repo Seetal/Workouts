@@ -1,0 +1,12 @@
+.workoutsPage {
+    &__dateHeader {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 200;
+        background-color: var(--clr-dark-grey);
+    }
+    &__footer {
+        padding: 1.7rem 1.5rem;
+        text-align: center;
+    }
+}

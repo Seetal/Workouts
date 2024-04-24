@@ -12,7 +12,7 @@ const IntervalsPage = () => {
     const intervals = dateSortedIntervals?.map((item, i) => {
         const currentDelay = 200 * i;
         return (
-            <ContentBlock key={item.id} isCentered={false} isFadeOn={true} fadeDelay={currentDelay}>
+            <ContentBlock key={item.id} isCentered={false} isFadeOn={true} fadeDelay={currentDelay} noPadding={true}>
                 <IntervalItem {...item} />
             </ContentBlock>
         )

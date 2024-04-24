@@ -5,11 +5,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import Homepage from './pages/Homepage'
 import IntervalsPage from './pages/IntervalsPage'
-import WorkoutsPage from './pages/WorkoutsPage'
+import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
 import StatsPage from './pages/StatsPage'
-import NewWorkout from './pages/NewWorkout/NewWorkout'
 import NewInterval from './pages/NewInterval/NewInterval'
 import Workout from './pages/Workout/Workout'
+import WorkoutSummary from './pages/WorkoutSummary/WorkoutSummary'
 import { IntervalsContextProvider } from './context/IntervalsContext'
 import { ModalContextProvider } from './components/Generic/Modal/ModalContext'
 import IntervalWorkout from './pages/IntervalWorkout/IntervalWorkout'
@@ -43,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "workouts/workout",
         element: <Workout />
+      },
+      {
+        path: "workouts/workoutSummary/:id",
+        element: <WorkoutSummary />
       },
       {
         path: "stats",
