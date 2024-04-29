@@ -6,16 +6,18 @@ import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 import Sets from "../../components/Workouts/Sets/Sets";
 import { ExerciseType } from "../../types/ExerciseType";
 import styles from './Workout.module.scss';
-import { addWorkoutToState, addExerciseToState } from "../../context/WorkoutsHelpers";
+import { addWorkoutToState, addExerciseToState, markAsComplete } from "../../context/WorkoutsHelpers";
+import { useNavigate } from "react-router-dom";
 
 const Workout = () => {
 
     const { savedWorkouts, setSavedWorkouts, periodKeysData, setPeriodKeysData} = useContext(WorkoutsContext);
     const [ isNewExercisePanelVisible, setIsNewExercisePanelVisible ] = useState(false);
+    const navigate = useNavigate();
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const workoutId = urlParams.get('id');
+    const workoutId: string = urlParams.get('id') as string;
 
     const handleShowNewExercisePanel = () => {
         setIsNewExercisePanelVisible(true);
@@ -41,9 +43,9 @@ const Workout = () => {
             updatetedStateData = addWorkoutToState(exerciseData, savedWorkouts);
             const currentDate = new Date();
             const currentMonthsStorageKey = `workouts_${currentDate.getMonth() + 1}_${currentDate.getFullYear()}`;
-            if ((periodKeysData.keyData.length === 0) || ((periodKeysData.keyData.length > 0) && (periodKeysData.keyData[0].periodkey !== currentMonthsStorageKey))) {
+            if ((periodKeysData.keyData.length === 0) || ((periodKeysData.keyData.length > 0) && (periodKeysData.keyData[0].periodKey !== currentMonthsStorageKey))) {
                 const newKeyData = {
-                    periodkey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
+                    periodKey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
                 }
                 const newLocalKeyData = [
                     newKeyData, ...periodKeysData.keyData
@@ -57,6 +59,16 @@ const Workout = () => {
         setSavedWorkouts(updatetedStateData);
         setIsNewExercisePanelVisible(false);
     }
+    const handleComplete = () => {
+        if(currentWorkout) {
+            const updatetedStateData = markAsComplete(currentWorkout.id, savedWorkouts);
+            setSavedWorkouts(updatetedStateData);
+            navigate("/workouts");
+        }
+    }
+    const handleCloseNewExercisePanel = () => {
+        setIsNewExercisePanelVisible(false);
+    }
 
     const pageColor = { '--page-color': 'var(--clr-blue)' } as React.CSSProperties;
 
@@ -64,7 +76,6 @@ const Workout = () => {
         <main style={pageColor}>
             {currentWorkout && 
                 currentWorkout.exerciseList.map(exercise => {
-
                     const id = exercise.id;
                     return (
                         <ContentBlock key={id}>
@@ -75,8 +86,15 @@ const Workout = () => {
                 })
             }
 
-            {isNewExercisePanelVisible && <NewExercise handleAddNewExercise={handleAddNewExercise} />}
-            <AddExercise handleAdd={handleShowNewExercisePanel} />
+            {isNewExercisePanelVisible && <NewExercise handleAddNewExercise={handleAddNewExercise} hideNewExercisePanel={handleCloseNewExercisePanel} />}
+            {!isNewExercisePanelVisible && 
+                <>
+                <AddExercise handleAdd={handleShowNewExercisePanel} />
+                <ContentBlock isCentered={true}>
+                    <button className="button button--alt" onClick={handleComplete}>Mark workout as complete</button>
+                </ContentBlock>
+                </>
+            }
         </main>
     )
 }

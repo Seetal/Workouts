@@ -5,19 +5,31 @@ import { WorkoutsContext } from "../../context/WorkoutsContext";
 import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 import styles from './WorkoutsPage.module.scss';
+import InProgressWorkout from "../../components/Workouts/InProgressWorkout/InProgressWorkout";
 
 const WorkoutsPage = () => {
     const { savedWorkouts, periodKeysData, handleGetPreviousMonth } = useContext(WorkoutsContext);
+    
+    const today = new Date();
+    const todayToCompare = new Date(today.getFullYear(),today.getMonth(),today.getDate());
 
-    const sortedWorkouts = savedWorkouts.sort(function(a, b) {
+    const inProgressWorkout = savedWorkouts.find(workout => {
+        const workoutDate = new Date(workout.date);
+        if(workout.inProgress && (todayToCompare.getTime() === workoutDate.getTime())) {
+            return workout;
+        }
+    })
+    const completedWorkouts = savedWorkouts.filter(workout => {
+            const workoutDate = new Date(workout.date);
+            return (todayToCompare.getTime() !== workoutDate.getTime()) || workout.inProgress === false ;
+    })
+    const sortedWorkouts = completedWorkouts.sort(function(a, b) {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-        return dateB - dateA;
+        return dateB.getTime() - dateA.getTime();
     })
 
-    console.log('sortedWorkouts', sortedWorkouts)
-
-    let currentMonth = null;
+    let currentMonth: number | null = null;
 
     if(sortedWorkouts.length > 0) {
         const firstItemDate = new Date(sortedWorkouts[0].date);
@@ -55,13 +67,18 @@ const WorkoutsPage = () => {
     }
 
     const workoutId = nanoid();
-    console.log(periodKeysData.currentShowing)
     const pageColor = { '--page-color': 'var(--clr-blue)' } as React.CSSProperties;
     return (
         <main style={pageColor}>
             <ContentBlock isCentered={true}>
                 <Link to={`/workouts/workout?id=${workoutId}`} className="button bgBlue">Start New Workout</Link>
             </ContentBlock>
+            {
+            inProgressWorkout && 
+            <ContentBlock isCentered={false} noPadding={true}>
+                <InProgressWorkout workoutDetails={inProgressWorkout} />
+            </ContentBlock>
+            }
             {previousWorkouts}
             <div className={styles.workoutsPage__footer}>
             {

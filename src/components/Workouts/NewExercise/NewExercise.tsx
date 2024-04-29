@@ -8,13 +8,21 @@ import { nanoid } from 'nanoid';
 
 type Props = {
     handleAddNewExercise: (name: ExerciseType) => void;
+    hideNewExercisePanel: () => void;
 }
 
-const NewExercise = ({handleAddNewExercise}: Props) => {
+type SavedExerciseItem = {
+    name: string;
+    id: string;
+}
 
+const NewExercise = ({handleAddNewExercise, hideNewExercisePanel}: Props) => {
+    const [savedExercises, setSavedExercises] = useState(
+        () => JSON.parse(localStorage.getItem('savedExercises') || '""' ) || Exercises
+    );
     const [exerciseName, setExerciseName] = useState('');
 
-    const filteredExercises = Exercises.filter(exercise => {
+    const filteredExercises = savedExercises.filter((exercise: SavedExerciseItem) => {
         if(exercise.name.toLocaleLowerCase().includes(exerciseName.toLowerCase())) {
             return exercise
         }
@@ -34,7 +42,19 @@ const NewExercise = ({handleAddNewExercise}: Props) => {
         handleAddNewExercise(newExerciseDetails);
     }
 
-    const exerciseElements = filteredExercises.map(exercise => {
+    const saveCustomExercise = () => {
+        const customExercise = {
+            name: exerciseName,
+            id: nanoid()
+        };
+        const newSavedExercises = [
+            ...savedExercises, customExercise
+        ];
+        localStorage.setItem('savedExercises', JSON.stringify(newSavedExercises));
+        setSavedExercises(newSavedExercises);
+    }
+
+    const exerciseElements = filteredExercises.map((exercise: SavedExerciseItem) => {
         return (
             <li key={exercise.id}>
                 <button className={styles.newExercise__btn} value={exercise.name} onClick={handleExerciseBtn}>{exercise.name}</button>
@@ -48,6 +68,10 @@ const NewExercise = ({handleAddNewExercise}: Props) => {
 
     return (
         <ContentBlock isCentered={false}>
+            <button className={styles.newExercise__close} onClick={hideNewExercisePanel}>
+                <span className="sr-only">Cancel add new exercise</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26"><path d="m24.1 3.3-1.4-1.4-9.7 9.7-9.7-9.7-1.4 1.4 9.7 9.7-9.7 9.7 1.4 1.4 9.7-9.7 9.7 9.7 1.4-1.4-9.7-9.7z" style={{"fill": "#fff"}}/></svg>
+            </button>
             <div className={styles.newExercise__input}>
                 <TextInput
                     name="Exercise name" 
@@ -60,6 +84,14 @@ const NewExercise = ({handleAddNewExercise}: Props) => {
             <ul className={styles.newExercise__list}>
                 {exerciseElements}
             </ul>
+            {filteredExercises.length === 0 && 
+            <>
+                <p className={styles.newExercise__msg}>There are no saved exercises called <span className={styles.newExercise__newName}>{exerciseName}</span>, would you like to add it as a new exercise?</p>
+                <div className="button-row button-row--left">
+                    <button className="button bgGreen" onClick={saveCustomExercise}>Yes</button>
+                    <button className="button bgRed" onClick={() => setExerciseName('')}>No</button>
+                </div>
+            </>}
         </ContentBlock>
     )
 }

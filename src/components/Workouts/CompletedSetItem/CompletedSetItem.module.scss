@@ -1,0 +1,21 @@
+.completedSetItem {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+    margin: 0;
+    &__item {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+    &__label {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--page-color);
+    }
+    &__value {
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 2.4rem;
+    }
+}

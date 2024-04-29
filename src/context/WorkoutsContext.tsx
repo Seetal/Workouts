@@ -1,27 +1,45 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useState } from "react";
 import { WorkoutType } from "../types/WorkoutType";
-import { ActionType } from "../types/WorkoutReducerActionType";
-import { workoutsReducer } from "./WorkoutsReducer";
 
+type SavedWorkoutsType = WorkoutType[];
+type PeriodKeyType = {
+    periodKey: string;
+    month: string;
+}
+type KeyDataType = PeriodKeyType[] | [];
+type PeriodKeysDataType = {
+    keyData: KeyDataType;
+    currentShowing: number;
+}
+type workoutsContextType = {
+    savedWorkouts: SavedWorkoutsType;
+    setSavedWorkouts: React.Dispatch<React.SetStateAction<SavedWorkoutsType>>;
+    periodKeysData: PeriodKeysDataType;
+    setPeriodKeysData: React.Dispatch<React.SetStateAction<PeriodKeysDataType>>;
+    handleGetPreviousMonth: () => void;
+}
 
-const WorkoutsContext = createContext<{
-    state: WorkoutType[] | [];
-    dispatch: React.Dispatch<ActionType>;
-}>({
-    state: [],
-    dispatch: () => null
+const WorkoutsContext = createContext<workoutsContextType>({
+    savedWorkouts: [],
+    setSavedWorkouts: () => {},
+    periodKeysData: {
+        keyData: [],
+        currentShowing: 0
+    },
+    setPeriodKeysData: () => {},
+    handleGetPreviousMonth: () => {}
 });
 
 
 const periodKeys = localStorage.getItem('workoutPeriodKeys');
-let periodData = {
+const periodData: PeriodKeysDataType = {
     keyData: [],
     currentShowing: 0
 };
 let parsedWorkoutData = [];
 if (periodKeys) {
     periodData.keyData = JSON.parse(periodKeys);
-    const latestWorkoutData = localStorage.getItem(periodData.keyData[0].periodkey) || '""';
+    const latestWorkoutData = localStorage.getItem(periodData.keyData[0].periodKey) || '""';
     periodData.currentShowing = 1;
     parsedWorkoutData = JSON.parse(latestWorkoutData);
 }
@@ -30,10 +48,8 @@ const WorkoutsContextProvider = ({ children }: { children: JSX.Element}) => {
     const [ savedWorkouts, setSavedWorkouts ] = useState(parsedWorkoutData);
     const [ periodKeysData, setPeriodKeysData ] = useState(periodData);
 
-    console.log('savedWorkouts', savedWorkouts)
-
     const handleGetPreviousMonth = () => {
-        const previousMonthsKey = periodKeysData.keyData[periodKeysData.currentShowing].periodkey;
+        const previousMonthsKey = periodKeysData.keyData[periodKeysData.currentShowing].periodKey;
         const previousMonthsData = localStorage.getItem(previousMonthsKey);
         const previousMonthsWorkoutsData = previousMonthsData ? JSON.parse(previousMonthsData) : [];
         setPeriodKeysData(prevState => {
@@ -41,7 +57,7 @@ const WorkoutsContextProvider = ({ children }: { children: JSX.Element}) => {
                 ...prevState, currentShowing: prevState.currentShowing + 1
             }
         })
-        setSavedWorkouts(prevState => {
+        setSavedWorkouts((prevState: SavedWorkoutsType) => {
             return [...prevState, ...previousMonthsWorkoutsData]
         })
     }

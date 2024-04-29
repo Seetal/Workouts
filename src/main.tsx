@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './scss/main.scss'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import App from './App'
 import Homepage from './pages/Homepage'
 import IntervalsPage from './pages/IntervalsPage'
 import WorkoutsPage from './pages/WorkoutsPage/WorkoutsPage'
-import StatsPage from './pages/StatsPage'
 import NewInterval from './pages/NewInterval/NewInterval'
 import Workout from './pages/Workout/Workout'
 import WorkoutSummary from './pages/WorkoutSummary/WorkoutSummary'
@@ -21,8 +20,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "",
-        element: <Homepage />
+        index: true,
+        element: <Navigate to="intervals" replace /> 
       },
       {
         path: "intervals",
@@ -47,10 +46,6 @@ const router = createBrowserRouter([
       {
         path: "workouts/workoutSummary/:id",
         element: <WorkoutSummary />
-      },
-      {
-        path: "stats",
-        element: <StatsPage />
       }
     ]
   }

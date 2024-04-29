@@ -22,8 +22,6 @@ const NewWorkout = () => {
     });
     const [ newExercise, setNewExercise ] = useState(false);
 
-    console.log(state);
-
     const handleAdd = () => {
         setNewExercise(true);
     }

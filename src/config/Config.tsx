@@ -1,11 +1,11 @@
 export const Config = {
     navData: [
-        {
-            label: 'Home',
-            textColor: 'red',
-            to: "/",
-            id: 1
-        },
+        // {
+        //     label: 'Home',
+        //     textColor: 'red',
+        //     to: "/",
+        //     id: 1
+        // },
         {
             label: 'Intervals',
             textColor: 'green',

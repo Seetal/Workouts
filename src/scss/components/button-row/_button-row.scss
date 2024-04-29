@@ -3,4 +3,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
+    &--left {
+        justify-content: flex-start;
+    }
 }

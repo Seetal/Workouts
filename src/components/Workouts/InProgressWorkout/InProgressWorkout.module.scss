@@ -1,0 +1,28 @@
+.inProgressWorkout {
+    display: block;
+    padding: 1.7rem 1.5rem 1.7rem 1.3125rem;
+    position: relative;
+    color: var(--clr-white);
+    text-decoration: none;
+    border-left: 3px solid var(--clr-blue);
+    &::after {
+        content: '';
+        position: absolute;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-right: 2px solid var(--page-color);
+        border-top: 2px solid var(--page-color);
+        right: 1.5rem;
+        top: 2.1rem;
+        transform: rotate(45deg);
+    }
+    &__title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--clr-blue);
+    }
+    &__exercises {
+        font-weight: 200;
+        padding-right: 1.5rem;
+    }
+}
