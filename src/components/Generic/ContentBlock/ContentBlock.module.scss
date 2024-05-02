@@ -1,7 +1,15 @@
+@use '../../../scss/mediaqueries';
+
 .contentBlock {
     border-bottom: 1px solid var(--clr-dark-grey);
     padding: 1.7rem 1.5rem;
     position: relative;
+    @include mediaqueries.bp-700 {
+        border-bottom: 0;
+        background-color: var(--clr-black);
+        border-radius: 0.5rem;
+        height: 100%;
+    }
     &.faded {
         opacity: 0;
     }

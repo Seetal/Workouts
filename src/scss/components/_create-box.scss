@@ -1,0 +1,15 @@
+@import '../mediaqueries';
+
+.create-box {
+    border-bottom: 1px solid var(--clr-dark-grey);
+    padding: 1.7rem 1.5rem;
+    position: relative;
+    text-align: center;
+    @include bp-700 {
+        position: absolute;
+        right: 1.5rem;
+        top: 0.1rem;
+        padding: 0;
+        border-bottom: 0;
+    }
+}

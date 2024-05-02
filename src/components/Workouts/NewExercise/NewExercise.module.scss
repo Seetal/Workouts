@@ -1,4 +1,12 @@
+@use '../../../scss/mediaqueries';
+
 .newExercise {
+    &__inner {
+        @include mediaqueries.bp-700 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
     &__list {
         display: flex;
         flex-wrap: wrap;
@@ -6,6 +14,9 @@
         padding: 0;
         margin: 0;
         gap: 0.5rem;
+        @include mediaqueries.bp-700 {
+            padding-top: 2rem;
+        }
     }
     &__btn {
         background-color: var(--clr-dark-grey);
@@ -18,6 +29,15 @@
     }
     &__input {
         margin-bottom: 1rem;
+        @include mediaqueries.bp-700 {
+            padding-right: 1.5rem;
+            margin-bottom: 0;
+        }
+    }
+    &__customPanel {
+        @include mediaqueries.bp-700 {
+            padding-top: 2rem;
+        }
     }
     &__msg {
         font-weight: 200;

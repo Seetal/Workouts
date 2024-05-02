@@ -41,7 +41,7 @@ const DuplicateInterval = ({ oldItem, newItem, submitted, closeModal }: Props) =
             <p>There is already an interval called <span className={styles.duplicateInterval__name}>'{oldItem?.name}'</span> with the same interval settings. Would you still like to create this new interval?</p>
             <div className="button-row">
                 <button className="button bgGreen" onClick={handleAdd}>Yes</button>
-                <button className="button bgRed" onClick={handleClose}>No</button>
+                <button className="button button--red" onClick={handleClose}>No</button>
             </div>
         </section>
     )

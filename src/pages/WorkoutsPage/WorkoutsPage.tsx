@@ -6,10 +6,16 @@ import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 import styles from './WorkoutsPage.module.scss';
 import InProgressWorkout from "../../components/Workouts/InProgressWorkout/InProgressWorkout";
+import { WorkoutType } from "../../types/WorkoutType";
+
+type CurrentItem = {
+    month: string;
+    items: WorkoutType[];
+    id: string;
+}
 
 const WorkoutsPage = () => {
     const { savedWorkouts, periodKeysData, handleGetPreviousMonth } = useContext(WorkoutsContext);
-    
     const today = new Date();
     const todayToCompare = new Date(today.getFullYear(),today.getMonth(),today.getDate());
 
@@ -29,50 +35,78 @@ const WorkoutsPage = () => {
         return dateB.getTime() - dateA.getTime();
     })
 
+
     let currentMonth: number | null = null;
+
+    const arrangedList: CurrentItem[] = [];
+
+    const currentItem: CurrentItem = {
+        month: '',
+        items: [],
+        id: ''
+    }
+
 
     if(sortedWorkouts.length > 0) {
         const firstItemDate = new Date(sortedWorkouts[0].date);
         currentMonth = firstItemDate.getMonth();
+        currentItem.month = `${firstItemDate.toLocaleString('default', { month: 'long' })} ${firstItemDate.getFullYear()}`;
     }
-    
-    let isNew = true;
-    let animationIterator = 0;
-
-    const previousWorkouts = sortedWorkouts && sortedWorkouts.map((item, i) => {
+    sortedWorkouts.forEach((item, i) => {
         const itemDate = new Date(item.date);
-        if(currentMonth !== itemDate.getMonth()) {
+        const keyName = `${itemDate.toLocaleString('default', { month: 'long' })} ${itemDate.getFullYear()}`;
+
+        if(itemDate.getMonth() === currentMonth) {
+            currentItem.items.push(item);
+        }
+        if ((i === sortedWorkouts.length - 1)) {
+            currentItem.id = nanoid();
+            const clonedCurrentItem = {...currentItem};
+            arrangedList.push(clonedCurrentItem);
+            currentItem.items = [];
+        }
+
+        if (itemDate.getMonth() !== currentMonth) {
+            currentItem.id = nanoid();
+            const clonedCurrentItem = {...currentItem};
+            arrangedList.push(clonedCurrentItem);
+            currentItem.items = [];
+            currentItem.items.push(item);
             currentMonth = itemDate.getMonth();
-            isNew = true;
-            animationIterator = i;
-        } else {
-            isNew = false;
+            currentItem.month = keyName;
         }
-        if(i === 0) {
-            isNew = true;
-        }
-        const currentDelay = 100 * (i - animationIterator);
+    });
+    const previousWorkouts = arrangedList.map(monthWorkouts => {
         return (
-            <div key={item.id}>
-                {isNew && <h2 className={styles.workoutsPage__dateHeader}>{itemDate.toLocaleString('default', { month: 'long' })} {itemDate.getFullYear()}</h2>}
-                <ContentBlock isCentered={false} isFadeOn={true} fadeDelay={currentDelay} noPadding={true}>
-                    <PreviousWorkoutItem {...item} />
-                </ContentBlock>
+            <div key={monthWorkouts.id}>
+                <h2 className={styles.workoutsPage__dateHeader}>{monthWorkouts.month}</h2>
+                <ul className="box-list">
+                    {monthWorkouts.items.map((workout) => {
+                        return (
+                            <li key={workout.id}>
+                                <ContentBlock isCentered={false} noPadding={true}>
+                                    <PreviousWorkoutItem {...workout} />
+                                </ContentBlock>
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
         )
     })
-
+    
     const handleLoadMore = () => {
         handleGetPreviousMonth();
     }
 
     const workoutId = nanoid();
-    const pageColor = { '--page-color': 'var(--clr-blue)' } as React.CSSProperties;
+    const pageColors = { '--page-color': 'var(--clr-blue)', '--page-color-secondary': 'var(--clr-blue-secondary)' } as React.CSSProperties;
+    
     return (
-        <main style={pageColor}>
-            <ContentBlock isCentered={true}>
+        <main style={pageColors}>
+            <div className="create-box">
                 <Link to={`/workouts/workout?id=${workoutId}`} className="button bgBlue">Start New Workout</Link>
-            </ContentBlock>
+            </div>
             {
             inProgressWorkout && 
             <ContentBlock isCentered={false} noPadding={true}>

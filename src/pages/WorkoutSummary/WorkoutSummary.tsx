@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { WorkoutsContext } from "../../context/WorkoutsContext";
-import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 import CompletedSetItem from "../../components/Workouts/CompletedSetItem/CompletedSetItem";
 import styles from './WorkoutSummary.module.scss';
 import { getDateOrdinal } from "../../utilities/GetDateOrdinal";
@@ -18,22 +17,26 @@ const WorkoutSummary = () => {
 
     return (
         <main style={pageColor}>
-            <ContentBlock>
-                <h1 className={styles.workoutSummary__title}>Workout Summary - {dateString}</h1>
-            </ContentBlock>
-            {currentWorkout && 
-                currentWorkout.exerciseList.map(exercise => {
-                    const id = exercise.id;
-                    return (
-                        <ContentBlock key={id}>
-                            <h2 className={styles.workoutSummary__exerciseName}>{exercise.name}</h2>
-                            {exercise.sets.map(set => {
-                                return <CompletedSetItem set={set}></CompletedSetItem>
-                            })}
-                        </ContentBlock>
-                    )
-                })
-            }
+            <h1 className={styles.workoutSummary__title}>Workout Summary - {dateString}</h1>
+            <ul className="box-list box-list--single-col">
+                {currentWorkout && 
+                    currentWorkout.exerciseList.map(exercise => {
+                        const id = exercise.id;
+                        return (
+                            <li>
+                                <div className={styles.workoutSummary__item} key={id}>
+                                    <h2 className={styles.workoutSummary__exerciseName}>{exercise.name}</h2>
+                                    <div className={styles.workoutSummary__inner}>
+                                        {exercise.sets.map(set => {
+                                            return <CompletedSetItem set={set}></CompletedSetItem>
+                                        })}
+                                    </div>
+                                </div>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </main>
     )
 }

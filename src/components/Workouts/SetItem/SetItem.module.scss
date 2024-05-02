@@ -1,8 +1,25 @@
+@use '../../../scss/mediaqueries';
+
 .setItem {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 0;
     margin: 0 0 0.6rem 0;
+    @include mediaqueries.bp-700 {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--clr-dark-grey);
+        margin-bottom: 0;
+    }
+    &:nth-child(odd) {
+        @include mediaqueries.bp-700 {
+            border-right: 1px solid var(--clr-dark-grey);
+        }
+    }
+    &:nth-last-child(2):nth-child(odd), &:last-child {
+        @include mediaqueries.bp-700 {
+            border-bottom: 0;
+        }
+    }
     &__item {
         list-style: none;
         display: flex;
@@ -29,6 +46,9 @@
         font-weight: 200;
         background-color: var(--clr-black);
         color: var(--clr-white);
+        @include mediaqueries.bp-700 {
+            background-color: var(--clr-light-black);
+        }
     }
     &__btn {
         width: 4.5rem;

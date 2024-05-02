@@ -1,8 +1,16 @@
+@import './mediaqueries';
+
 body {
     background-color: var(--clr-light-black);
     font-family: 'Aleo', sans-serif;
     font-optical-sizing: auto;
     color: var(--clr-white);
+}
+
+main {
+  @include bp-700 {
+    padding: 1rem;
+  }
 }
 
 @property --angle {

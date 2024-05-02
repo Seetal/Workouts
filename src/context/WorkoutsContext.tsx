@@ -42,8 +42,15 @@ if (periodKeys) {
     const latestWorkoutData = localStorage.getItem(periodData.keyData[0].periodKey) || '""';
     periodData.currentShowing = 1;
     parsedWorkoutData = JSON.parse(latestWorkoutData);
+    if(periodData.keyData.length > 1) {
+        const previousWorkoutData = localStorage.getItem(periodData.keyData[1].periodKey) || '""';
+        const previousDataParsed = JSON.parse(previousWorkoutData);
+        for (const obj of previousDataParsed) {
+            parsedWorkoutData.push(structuredClone(obj));
+        }
+        periodData.currentShowing = 2;
+    }
 }
-
 const WorkoutsContextProvider = ({ children }: { children: JSX.Element}) => {
     const [ savedWorkouts, setSavedWorkouts ] = useState(parsedWorkoutData);
     const [ periodKeysData, setPeriodKeysData ] = useState(periodData);

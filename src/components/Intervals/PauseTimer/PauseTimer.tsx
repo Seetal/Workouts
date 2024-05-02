@@ -38,8 +38,8 @@ const PauseTimer = ({handlePause, handleResume, isPaused, timerRef, handleQuit}:
             {isPaused &&
                 <Modal title="Interval Paused" handleClose={handleResume} withFadeOff={zoomIn}>
                     <div className="button-row">
-                        <button className="button bgGreen" onClick={handleResumeButton}>Resume</button>
-                        <button className="button bgRed" onClick={handleQuitButton}>Quit</button>
+                        <button className="button" onClick={handleResumeButton}>Resume</button>
+                        <button className="button button--red" onClick={handleQuitButton}>Quit</button>
                     </div>
                 </Modal>
             }

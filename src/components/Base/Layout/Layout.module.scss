@@ -1,0 +1,10 @@
+@use '../../../scss/mediaqueries';
+
+.container {
+    @include mediaqueries.bp-700 {
+        width: 100%;
+        max-width: 78.125rem;
+        margin: 3rem auto 0 auto;
+        position: relative;
+    }
+}

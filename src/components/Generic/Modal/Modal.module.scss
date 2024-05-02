@@ -1,3 +1,5 @@
+@use '../../../scss/mediaqueries';
+
 .modal {
     display: block;
     width: 80%;
@@ -6,6 +8,10 @@
     border: 1px solid var(--clr-dark-grey);
     border-radius: 0.2rem;
     position: relative;
+    @include mediaqueries.bp-700 {
+      max-width: 37.5rem;
+      padding: 1.5rem;
+    }
     &__overlay {
         display: flex;
         background-color: var(--clr-black-faded);

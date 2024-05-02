@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { IntervalType } from '../../../types/IntervalType';
 import { lastUsedFormatted } from './IntervalItem.helpers';
 
-const IntervalItem = ({ id, name, lastUsed, work, rest, rounds, sets, created, isNew }: IntervalType) => {
+const IntervalItem = ({ id, name, lastUsed, work, rest, rounds, sets, isNew }: IntervalType) => {
 
     const formattedDate = lastUsedFormatted(lastUsed);
 

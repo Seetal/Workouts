@@ -1,0 +1,11 @@
+@mixin bp-700 {
+    @media screen and (min-width: 43.75rem) {
+        @content;
+    }
+}
+
+@mixin bp-1000 {
+    @media screen and (min-width: 62.5rem) {
+        @content;
+    }
+}

@@ -1,3 +1,18 @@
+@use '../../scss/mediaqueries';
+
 .newInterval {
     padding-bottom: 4.6rem;
+    @include mediaqueries.bp-1000 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1rem;
+        padding: 0 1rem;
+        align-items: flex-start;
+    }
+    &__form {
+        @include mediaqueries.bp-1000 {
+            background-color: var(--clr-black);
+            border-radius: 0.5rem;
+        }
+    }
 }

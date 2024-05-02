@@ -1,14 +1,28 @@
+@use '../../../scss/mediaqueries';
+
 .navTile {
     font-weight: 400;
     font-style: normal;
     font-size: 1rem;
-    background-color: var(--clr-black);
     padding: 1rem;
     text-align: center;
     display: block;
     text-decoration: none;
     position: relative;
     color: var(--nav-tile-color);
+    background-color: var(--clr-black);
+    @include mediaqueries.bp-700 {
+        margin-right: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 1.5rem;
+        border: 2px solid var(--clr-black);
+        transition: border .3s ease;
+    }
+    &:hover {
+        @include mediaqueries.bp-700 {
+            border: 2px solid var(--nav-tile-color);
+        }
+    }
     &::after {
         opacity: 0;
         display: block;
@@ -20,8 +34,15 @@
         bottom: 0;
         left: 0;
         transition: opacity .3s ease;
+        @include mediaqueries.bp-700 {
+            display: none;
+        }
     }
     &.active {
+        @include mediaqueries.bp-700 {
+            background-color: var(--clr-black);
+            border: 2px solid var(--nav-tile-color);
+        }
         &::after {
             opacity: 1;
         }

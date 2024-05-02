@@ -1,4 +1,10 @@
+@use '../../../scss/mediaqueries';
+
 .sets {
+    @include mediaqueries.bp-700 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
     &__btnRow {
         display: flex;
         gap: 1rem;
@@ -13,6 +19,19 @@
         align-items: flex-start;
         line-height: 1.2rem;
         font-size: 1rem;
+        @include mediaqueries.bp-700 {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            width: 100%;
+            transition: color .3s ease;
+            font-size: 1rem;
+            border-top: 1px solid var(--clr-dark-grey);
+        }
+        &:hover {
+            @include mediaqueries.bp-700 {
+                color: var(--page-color);
+            } 
+        }
     }
     &__addIcon {
         display: block;
@@ -24,6 +43,12 @@
             display: block;
             background-color: var(--clr-white);
             position: absolute;
+            transition: background-color .3s ease;
+            .sets__addBtn:hover & {
+                @include mediaqueries.bp-700 {
+                    background-color: var(--page-color);
+                }
+            }
         }
         &::before {
             width: 100%;

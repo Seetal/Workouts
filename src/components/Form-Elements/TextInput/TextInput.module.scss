@@ -1,3 +1,5 @@
+@use '../../../scss/mediaqueries';
+
 .textInput {
     border: 0;
     background-color: var(--clr-dark-grey);
@@ -24,9 +26,12 @@
     }
     &__validation {
         background-color: var(--clr-red);
-        color: var(--clr-black);
+        color: var(--clr-white);
         font-size: 0.875rem;
         padding: 0 0.4rem;
         border-radius: 0.2rem;
+        @include mediaqueries.bp-700 {
+            font-size: 1rem;
+        }
     }
 }

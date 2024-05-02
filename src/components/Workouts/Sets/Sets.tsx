@@ -29,7 +29,9 @@ const Sets = ({ exercise, workoutId }: Props) => {
 
     return (
         <>
-            {setItems}
+            <div className={styles.sets}>
+                {setItems}
+            </div>
             <div className={styles.sets__btnRow}>
                 <button className={styles.sets__addBtn} onClick={handleAddSet}>
                     <span className={styles.sets__addIcon}></span> Another Set

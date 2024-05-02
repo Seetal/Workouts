@@ -1,7 +1,27 @@
 import styles from './NewIntervalSummary.module.scss';
 import LabelValue from '../../Generic/LabelValue/LabelValue';
 
-const NewIntervalSummary = ({ data, addHandler }) => {
+type DataItem = {
+    value: string 
+    valid: boolean;
+    validationText: string;
+    isValidationVisible: boolean;
+}
+
+type Data = {
+    name: DataItem;
+    work: DataItem;
+    rest: DataItem;
+    rounds: DataItem;
+    sets: DataItem;
+}
+
+type Props = {
+    data: Data;
+    addHandler: () => void; 
+}
+
+const NewIntervalSummary = ({ data, addHandler }: Props) => {
     return (
         <section className={styles.summary}>
             <dl className={styles.summary__list}>

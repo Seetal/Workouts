@@ -1,9 +1,16 @@
+@use '../../scss/mediaqueries';
+
 .workoutsPage {
     &__dateHeader {
         padding: 0.6rem 1.5rem;
         font-size: 1rem;
         font-weight: 200;
         background-color: var(--clr-dark-grey);
+        @include mediaqueries.bp-700 {
+            background-color: transparent;
+            font-weight: 700;
+            color: var(--page-color);
+        }
     }
     &__footer {
         padding: 1.7rem 1.5rem;

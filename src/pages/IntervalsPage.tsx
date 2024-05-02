@@ -12,19 +12,23 @@ const IntervalsPage = () => {
     const intervals = dateSortedIntervals?.map((item, i) => {
         const currentDelay = 200 * i;
         return (
-            <ContentBlock key={item.id} isCentered={false} isFadeOn={true} fadeDelay={currentDelay} noPadding={true}>
-                <IntervalItem {...item} />
-            </ContentBlock>
+            <li key={item.id} className="box-list__item">
+                <ContentBlock key={item.id} isCentered={false} isFadeOn={true} fadeDelay={currentDelay} noPadding={true}>
+                    <IntervalItem {...item} />
+                </ContentBlock>
+            </li>
         )
     })
 
-    const pageColor = { '--page-color': 'var(--clr-green)' } as React.CSSProperties;
+    const pageColors = { '--page-color': 'var(--clr-green)', '--page-color-secondary': 'var(--clr-green-secondary)' } as React.CSSProperties;
     return (
-        <main style={pageColor}>
-            <ContentBlock isCentered={true}>
+        <main style={pageColors}>
+            <div className="create-box">
                 <Link to="/intervals/new" className="button bgGreen">Create New Interval</Link>
-            </ContentBlock>
-            {intervals}
+            </div>
+            <ul className="box-list">
+                {intervals}
+            </ul>
         </main>
     )
 }

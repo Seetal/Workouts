@@ -21,9 +21,9 @@ const IntervalWorkout = () => {
         setIsFinished(true);
         handleUpdateInterval(currentInterval);
     }
-
+    const pageColors = { '--page-color': 'var(--clr-green)', '--page-color-secondary': 'var(--clr-green-secondary)' } as React.CSSProperties;
     return (
-        <>
+        <main style={pageColors}>
             {!isFinished &&
                 <>
                     <h1 className={styles.intervalWorkout__title}>{currentInterval?.name}</h1>
@@ -41,7 +41,7 @@ const IntervalWorkout = () => {
                     <p>Workout complete.</p>
                 </ContentBlock>
             }
-        </>
+        </main>
     )
 }
 

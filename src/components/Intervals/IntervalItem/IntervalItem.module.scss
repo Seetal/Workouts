@@ -1,19 +1,35 @@
+@use '../../../scss/mediaqueries';
+
 .intervalItem {
     color: var(--clr-white);
     text-decoration: none;
     padding: 1.7rem 1.5rem;
     display: block;
+    @include mediaqueries.bp-700 {
+        border-radius: 0.5rem;
+    }
     &__header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 0.5rem;
         align-items: flex-end;
+        @include mediaqueries.bp-700 {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
     }
     &__title {
         font-size: 1.125rem;
         font-weight: 700;
         display: flex;
         align-items: flex-start;
+        transition: color .3s ease;
+        .intervalItem:hover & {
+            @include mediaqueries.bp-700 {
+                color: var(--page-color);
+            }
+        }
     }
     &__list {
         display: grid;

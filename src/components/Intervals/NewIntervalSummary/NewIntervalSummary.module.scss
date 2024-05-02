@@ -1,3 +1,5 @@
+@use '../../../scss/mediaqueries';
+
 .summary {
     position: fixed;
     background-color: var(--clr-black);
@@ -9,10 +11,35 @@
     grid-template-columns: 4fr 1fr;
     align-items: flex-start;
     border-top: 1px solid var(--clr-dark-grey);
-    box-shadow: 0 -5px 0 var(--clr-shadow);
+    box-shadow: 0 5px 0 var(--clr-shadow);
+    @include mediaqueries.bp-700 {
+        bottom: 1rem;
+        width: 40.625rem;
+        left: 50%;
+        margin-left: -20.3125rem;
+        border-radius: 2.375rem;
+        grid-template-columns: 5fr 1fr;
+        padding: 0.7rem 3rem 0.3rem 3rem;
+    }
+    @include mediaqueries.bp-1000 {
+        position: relative;
+        width: auto;
+        bottom: auto;
+        border-radius: 0.5rem;
+        margin-left: 0;
+        left: 0;
+        border-top: 0;
+        box-shadow: none;
+        padding: 1.5rem;
+        grid-template-columns: 1fr;
+        justify-content: flex-start;
+    }
     &__list {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        @include mediaqueries.bp-1000 {
+            margin-bottom: 1rem;
+        }
     }
     &__btnWrap {
         padding-top: 0.5rem;

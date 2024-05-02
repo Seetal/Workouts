@@ -72,26 +72,31 @@ const NewExercise = ({handleAddNewExercise, hideNewExercisePanel}: Props) => {
                 <span className="sr-only">Cancel add new exercise</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26"><path d="m24.1 3.3-1.4-1.4-9.7 9.7-9.7-9.7-1.4 1.4 9.7 9.7-9.7 9.7 1.4 1.4 9.7-9.7 9.7 9.7 1.4-1.4-9.7-9.7z" style={{"fill": "#fff"}}/></svg>
             </button>
-            <div className={styles.newExercise__input}>
-                <TextInput
-                    name="Exercise name" 
-                    id="exerciseName" 
-                    label="Exercise name" 
-                    value={exerciseName} 
-                    handler={onChange}
-                    />
-            </div>
-            <ul className={styles.newExercise__list}>
-                {exerciseElements}
-            </ul>
-            {filteredExercises.length === 0 && 
-            <>
-                <p className={styles.newExercise__msg}>There are no saved exercises called <span className={styles.newExercise__newName}>{exerciseName}</span>, would you like to add it as a new exercise?</p>
-                <div className="button-row button-row--left">
-                    <button className="button bgGreen" onClick={saveCustomExercise}>Yes</button>
-                    <button className="button bgRed" onClick={() => setExerciseName('')}>No</button>
+            <div className={styles.newExercise__inner}>
+                <div className={styles.newExercise__input}>
+                    <TextInput
+                        name="Exercise name" 
+                        id="exerciseName" 
+                        label="Exercise name" 
+                        value={exerciseName} 
+                        handler={onChange}
+                        />
                 </div>
-            </>}
+                {filteredExercises.length > 0 &&
+                <ul className={styles.newExercise__list}>
+                    {exerciseElements}
+                </ul>
+                }
+                {filteredExercises.length === 0 && 
+                <div className={styles.newExercise__customPanel}>
+                    <p className={styles.newExercise__msg}>There are no saved exercises called <span className={styles.newExercise__newName}>{exerciseName}</span>, would you like to add it as a new exercise?</p>
+                    <div className="button-row button-row--left">
+                        <button className="button bgGreen" onClick={saveCustomExercise}>Yes</button>
+                        <button className="button button--red" onClick={() => setExerciseName('')}>No</button>
+                    </div>
+                </div>
+                }
+            </div>
         </ContentBlock>
     )
 }

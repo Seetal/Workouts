@@ -21,12 +21,33 @@ type Duplicate = {
     newItem: null | IntervalType;
 }
 
+type IntervalSubmittedType = {
+    isSubmitted: boolean;
+    addedInterval: IntervalType;
+}
+
+const initialState = {
+    isSubmitted: false, 
+    addedInterval: {
+        id: '',
+        created: '',
+        name: '',
+        lastUsed: '',
+        work: 0,
+        rest: 0,
+        rounds: 0,
+        sets: 0,
+        code: '',
+        isNew: false
+    }
+}
+
 const NewInterval = () => {
     const { savedIntervals, handleAddInterval } = useContext(IntervalsContext);
     const { handleFadeOn } = useContext(ModalContext);
     const [newIntervalData, setNewIntervalData] = useState(NewIntervalInitialData);
     const [duplicate, setDuplicate] =  useState<Duplicate>({ isDuplicate: false, oldItem: null, newItem: null });
-    const [intervalSubmitted, setIntervalSubmitted] = useState({isSubmitted: false, addedInterval: {} });
+    const [intervalSubmitted, setIntervalSubmitted] = useState<IntervalSubmittedType>(initialState);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof typeof newIntervalData;
@@ -85,40 +106,42 @@ const NewInterval = () => {
         setDuplicate({ isDuplicate: false, oldItem: null, newItem: null});
     }
 
-    const pageColor = { '--page-color': 'var(--clr-green)' } as React.CSSProperties;
+    const pageColors = { '--page-color': 'var(--clr-green)', '--page-color-secondary': 'var(--clr-green-secondary)' } as React.CSSProperties;
 
     return (
-        <main className={styles.newInterval} style={pageColor}>
+        <main className={styles.newInterval} style={pageColors}>
             {
                 intervalSubmitted.isSubmitted ? <IntervalSubmitted newInterval={intervalSubmitted.addedInterval}/> :
                 <>
-                    <ContentBlock isCentered={false}>
-                        <TextInput 
-                            label="New interval name" 
-                            id="intervalName" 
-                            name="name" 
-                            isValidationVisible={newIntervalData.name.isValidationVisible} 
-                            validationText={newIntervalData.name.validationText} 
-                            value={newIntervalData.name.value}  
-                            handler={handleChange}/>
-                    </ContentBlock>
-                    <ContentBlock isCentered={false}>
-                        <RadioList option={Config.newInterval.maxWork} accumulator={5} name="work" legend="Work length (secs)" handler={handleChange} newIntervalData={newIntervalData.work}/>
-                    </ContentBlock>
-                    <ContentBlock isCentered={false}>
-                        <RadioList option={Config.newInterval.maxRest} accumulator={5} name="rest" legend="Rest length (secs)" handler={handleChange} newIntervalData={newIntervalData.rest}/>
-                    </ContentBlock>
-                    <ContentBlock isCentered={false}>
-                        <RadioList option={Config.newInterval.maxRounds} accumulator={1} name="rounds" legend="Number of rounds" handler={handleChange} newIntervalData={newIntervalData.rounds}/>
-                    </ContentBlock>
-                    <ContentBlock isCentered={false}>
-                        <RadioList option={Config.newInterval.maxSets} accumulator={1} name="sets" legend="Number of sets"  handler={handleChange} newIntervalData={newIntervalData.sets}/>
-                    </ContentBlock>
+                    <div className={styles.newInterval__form}>
+                        <ContentBlock isCentered={false}>
+                            <TextInput 
+                                label="New interval name" 
+                                id="intervalName" 
+                                name="name" 
+                                isValidationVisible={newIntervalData.name.isValidationVisible} 
+                                validationText={newIntervalData.name.validationText} 
+                                value={newIntervalData.name.value}  
+                                handler={handleChange}/>
+                        </ContentBlock>
+                        <ContentBlock isCentered={false}>
+                            <RadioList option={Config.newInterval.maxWork} accumulator={5} name="work" legend="Work length (secs)" handler={handleChange} newIntervalData={newIntervalData.work}/>
+                        </ContentBlock>
+                        <ContentBlock isCentered={false}>
+                            <RadioList option={Config.newInterval.maxRest} accumulator={5} name="rest" legend="Rest length (secs)" handler={handleChange} newIntervalData={newIntervalData.rest}/>
+                        </ContentBlock>
+                        <ContentBlock isCentered={false}>
+                            <RadioList option={Config.newInterval.maxRounds} accumulator={1} name="rounds" legend="Number of rounds" handler={handleChange} newIntervalData={newIntervalData.rounds}/>
+                        </ContentBlock>
+                        <ContentBlock isCentered={false}>
+                            <RadioList option={Config.newInterval.maxSets} accumulator={1} name="sets" legend="Number of sets"  handler={handleChange} newIntervalData={newIntervalData.sets}/>
+                        </ContentBlock>
+                    </div>
                     <NewIntervalSummary data={newIntervalData} addHandler={addHandler}/>
                 </>
             }
             {
-                duplicate.isDuplicate && (
+                (duplicate.isDuplicate && duplicate.oldItem && duplicate.newItem) && (
                     <Modal handleClose={handleCloseModal} title={'Duplicate Interval'}>
                         <DuplicateInterval oldItem={duplicate.oldItem} newItem={duplicate.newItem} submitted={setIntervalSubmitted} closeModal={handleCloseModal} />
                     </Modal>

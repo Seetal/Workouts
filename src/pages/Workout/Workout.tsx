@@ -70,21 +70,25 @@ const Workout = () => {
         setIsNewExercisePanelVisible(false);
     }
 
-    const pageColor = { '--page-color': 'var(--clr-blue)' } as React.CSSProperties;
+    const pageColors = { '--page-color': 'var(--clr-blue)', '--page-color-secondary': 'var(--clr-blue-secondary)' } as React.CSSProperties;
 
     return (
-        <main style={pageColor}>
-            {currentWorkout && 
-                currentWorkout.exerciseList.map(exercise => {
-                    const id = exercise.id;
-                    return (
-                        <ContentBlock key={id}>
-                            <h2 className={styles.workout__exerciseName}>{exercise.name}</h2>
-                            <Sets exercise={exercise} workoutId={workoutId}></Sets>
-                        </ContentBlock>
-                    )
-                })
-            }
+        <main style={pageColors}>
+            <ul className="box-list box-list--single-col">
+                {currentWorkout && 
+                    currentWorkout.exerciseList.map(exercise => {
+                        const id = exercise.id;
+                        return (
+                            <li key={currentWorkout.id}>
+                                <div className={styles.workout__item} key={id}>
+                                    <h2 className={styles.workout__exerciseName}>{exercise.name}</h2>
+                                    <Sets exercise={exercise} workoutId={workoutId}></Sets>
+                                </div>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
 
             {isNewExercisePanelVisible && <NewExercise handleAddNewExercise={handleAddNewExercise} hideNewExercisePanel={handleCloseNewExercisePanel} />}
             {!isNewExercisePanelVisible && 

@@ -1,11 +1,5 @@
 export const Config = {
     navData: [
-        // {
-        //     label: 'Home',
-        //     textColor: 'red',
-        //     to: "/",
-        //     id: 1
-        // },
         {
             label: 'Intervals',
             textColor: 'green',
@@ -17,13 +11,7 @@ export const Config = {
             textColor: 'blue',
             to: "/workouts",
             id: 3
-        },
-        // {
-        //     label: 'Stats',
-        //     textColor: 'orange',
-        //     to: "/stats",
-        //     id: 4
-        // }
+        }
     ],
     newInterval: {
         maxWork: 60,

@@ -9,7 +9,7 @@ export const IntervalsData = [
         rounds: 3,
         sets: 3,
         code: '20100303',
-        isNew: false
+        isNew: true
     },
     {
         id: '2',
@@ -21,7 +21,7 @@ export const IntervalsData = [
         rounds: 5,
         sets: 5,
         code: '30100505',
-        isNew: false
+        isNew: true
     },
     {
         id: '3',
