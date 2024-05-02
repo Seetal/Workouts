@@ -5,7 +5,7 @@ export const sortByDate = (array: IntervalType[]) => {
         const dateA = a.isNew ? new Date(a.created) : new Date(a.lastUsed);
         const dateB = b.isNew ? new Date(b.created) : new Date(b.lastUsed);
         
-        return dateB - dateA;
+        return dateB.getTime() - dateA.getTime();
     })
 
     return array;

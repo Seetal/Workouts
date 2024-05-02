@@ -36,7 +36,7 @@ const periodData: PeriodKeysDataType = {
     keyData: [],
     currentShowing: 0
 };
-let parsedWorkoutData = [];
+let parsedWorkoutData: WorkoutType[] = [];
 if (periodKeys) {
     periodData.keyData = JSON.parse(periodKeys);
     const latestWorkoutData = localStorage.getItem(periodData.keyData[0].periodKey) || '""';

@@ -13,11 +13,36 @@ type Story = StoryObj<typeof meta>;
 export const Main: Story = {
     args: {
         data: {
-            name: '',
-            work: '30',
-            rest: '',
-            rounds: '',
-            sets: ''
+            name: {
+                value: 'Name',
+                valid: true,
+                validationText: '',
+                isValidationVisible: false
+            },
+            work: {
+                value: '20',
+                valid: true,
+                validationText: '',
+                isValidationVisible: false
+            },
+            rest: {
+                value: '30',
+                valid: true,
+                validationText: '',
+                isValidationVisible: false
+            },
+            rounds: {
+                value: '5',
+                valid: true,
+                validationText: '',
+                isValidationVisible: false
+            },
+            sets: {
+                value: '5',
+                valid: true,
+                validationText: '',
+                isValidationVisible: false
+            }
         }
     }
 }

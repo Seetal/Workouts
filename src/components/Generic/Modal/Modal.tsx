@@ -11,7 +11,8 @@ type Props = {
 
 const Modal = ({ children, handleClose, title, withFadeOff }: Props) => {
     const {handleFadeOff, fadeOff} = useContext(ModalContext)
-
+    
+    //@ts-ignore
     const handleEscape = (e) => {
         if (e.keyCode == 27) {
             handleFadeOff();
