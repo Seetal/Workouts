@@ -1,3 +1,5 @@
+@use '../../../scss/mediaqueries';
+
 .timer {
     width: 280px;
     height: 280px;
@@ -17,6 +19,10 @@
     &__circleBack {
         fill: var(--clr-light-black);
         stroke: var(--clr-black);
+        @include mediaqueries.bp-700 {
+            fill: var(--clr-black);
+            stroke: var(--clr-dark-grey);
+        }
     }
     &__inner {
         display: flex;

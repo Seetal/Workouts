@@ -4,7 +4,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 0;
-    margin: 0;
+    margin: 0 0 1rem 0;
+    &:last-child {
+        margin-bottom: 0;
+    }
     @include mediaqueries.bp-700 {
         padding: 1.5rem;
         border-bottom: 1px solid var(--clr-dark-grey);

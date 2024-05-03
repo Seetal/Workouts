@@ -24,23 +24,25 @@ const IntervalWorkout = () => {
     const pageColors = { '--page-color': 'var(--clr-green)', '--page-color-secondary': 'var(--clr-green-secondary)' } as React.CSSProperties;
     return (
         <main style={pageColors}>
-            {!isFinished &&
-                <>
-                    <h1 className={styles.intervalWorkout__title}>{currentInterval?.name}</h1>
-                    <Timer 
-                        timingArray={timingArray} 
-                        sets={currentInterval?.sets} 
-                        rounds={currentInterval?.rounds} 
-                        setIsFinished={finishedHandler} 
-                    />
-                </>
-            }
-            {isFinished &&
-                <ContentBlock isCentered={true}>
-                    <h2 className="title-1">Well done!</h2>
-                    <p>Workout complete.</p>
-                </ContentBlock>
-            }
+            <div className={styles.intervalWorkout}>
+                {!isFinished &&
+                    <>
+                        <h1 className={styles.intervalWorkout__title}>{currentInterval?.name}</h1>
+                        <Timer 
+                            timingArray={timingArray} 
+                            sets={currentInterval?.sets} 
+                            rounds={currentInterval?.rounds} 
+                            setIsFinished={finishedHandler} 
+                        />
+                    </>
+                }
+                {isFinished &&
+                    <ContentBlock isCentered={true}>
+                        <h2 className="title-1">Well done!</h2>
+                        <p>Workout complete.</p>
+                    </ContentBlock>
+                }
+            </div>
         </main>
     )
 }
