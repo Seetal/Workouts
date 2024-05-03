@@ -99,6 +99,8 @@ const PreviousWorkouts = () => {
         handleGetPreviousMonth();
     }
 
+    const noWorkouts = savedWorkouts.length > 0 ? 'You have no more previous workouts.' : 'You have no previous workouts.';
+
     return (
         <>
             {
@@ -112,7 +114,7 @@ const PreviousWorkouts = () => {
             {
                 periodKeysData.keyData.length > periodKeysData.currentShowing ? 
                 <button className="button button--alt" onClick={handleLoadMore}>Load more</button> :
-                <p>You have no more previous workouts</p>
+                <p>{noWorkouts}</p>
             }
             </div>
         </>
