@@ -52,22 +52,25 @@ const PreviousWorkouts = () => {
         currentMonth = firstItemDate.getMonth();
         currentItem.month = `${firstItemDate.toLocaleString('default', { month: 'long' })} ${firstItemDate.getFullYear()}`;
     }
+    let currentId = '';
     sortedWorkouts.forEach((item, i) => {
         const itemDate = new Date(item.date);
         const keyName = `${itemDate.toLocaleString('default', { month: 'long' })} ${itemDate.getFullYear()}`;
-
+        
         if(itemDate.getMonth() === currentMonth) {
             currentItem.items.push(item);
         }
         if ((i === sortedWorkouts.length - 1)) {
-            currentItem.id = nanoid();
+            currentItem.id = `${item.id}abc`;
+            console.log(`AAAA ${item.id}abc`)
             const clonedCurrentItem = {...currentItem};
             arrangedList.push(clonedCurrentItem);
             currentItem.items = [];
         }
 
         if (itemDate.getMonth() !== currentMonth) {
-            currentItem.id = nanoid();
+            currentItem.id = `${currentId}abc`;
+            console.log(`BBBB ${currentId}abc`)
             const clonedCurrentItem = {...currentItem};
             arrangedList.push(clonedCurrentItem);
             currentItem.items = [];
@@ -75,6 +78,7 @@ const PreviousWorkouts = () => {
             currentMonth = itemDate.getMonth();
             currentItem.month = keyName;
         }
+        currentId = item.id;
     });
     const previousWorkouts = arrangedList.map(monthWorkouts => {
         return (
