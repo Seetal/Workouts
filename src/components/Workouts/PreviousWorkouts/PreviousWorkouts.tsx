@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { WorkoutsContext } from "../../../context/WorkoutsContext";
 import { WorkoutType } from "../../../types/WorkoutType";
-import { nanoid } from "nanoid";
 import styles from './PreviousWorkouts.module.scss';
 import ContentBlock from "../../Generic/ContentBlock/ContentBlock";
 import PreviousWorkoutItem from "../PreviousWorkoutItem/PreviousWorkoutItem";
