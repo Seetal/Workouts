@@ -17,6 +17,7 @@ type workoutsContextType = {
     periodKeysData: PeriodKeysDataType;
     setPeriodKeysData: React.Dispatch<React.SetStateAction<PeriodKeysDataType>>;
     handleGetPreviousMonth: () => void;
+    updatePeriodKeys: () => void;
 }
 
 const WorkoutsContext = createContext<workoutsContextType>({
@@ -27,7 +28,8 @@ const WorkoutsContext = createContext<workoutsContextType>({
         currentShowing: 0
     },
     setPeriodKeysData: () => {},
-    handleGetPreviousMonth: () => {}
+    handleGetPreviousMonth: () => {},
+    updatePeriodKeys: () => {}
 });
 
 
@@ -69,8 +71,25 @@ const WorkoutsContextProvider = ({ children }: { children: JSX.Element}) => {
         })
     }
 
+    const updatePeriodKeys = () => {
+        const currentDate = new Date();
+        const currentMonthsStorageKey = `workouts_${currentDate.getMonth() + 1}_${currentDate.getFullYear()}`;
+        if ((periodKeysData.keyData.length === 0) || ((periodKeysData.keyData.length > 0) && (periodKeysData.keyData[0].periodKey !== currentMonthsStorageKey))) {
+            const newKeyData = {
+                periodKey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
+            }
+            const newLocalKeyData = [
+                newKeyData, ...periodKeysData.keyData
+            ]
+            localStorage.setItem('workoutPeriodKeys', JSON.stringify(newLocalKeyData));
+            setPeriodKeysData(prevState => {
+                return { keyData: [newKeyData, ...prevState.keyData], currentShowing: prevState.currentShowing + 1 };
+            })
+        }
+    }
+
     return (
-        <WorkoutsContext.Provider value={{ savedWorkouts, setSavedWorkouts, periodKeysData, setPeriodKeysData, handleGetPreviousMonth }}>
+        <WorkoutsContext.Provider value={{ savedWorkouts, setSavedWorkouts, periodKeysData, setPeriodKeysData, handleGetPreviousMonth, updatePeriodKeys }}>
             {children}
         </WorkoutsContext.Provider>
     )

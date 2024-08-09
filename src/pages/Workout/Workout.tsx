@@ -3,18 +3,16 @@ import { WorkoutsContext } from "../../context/WorkoutsContext";
 import NewExercise from "../../components/Workouts/NewExercise/NewExercise";
 import AddExercise from "../../components/Workouts/AddExercise/AddExercise";
 import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
-import Sets from "../../components/Workouts/Sets/Sets";
+import WorkoutExercise from "../../components/Workouts/WorkoutExercise/WorkoutExercise";
 import { ExerciseType } from "../../types/ExerciseType";
-import styles from './Workout.module.scss';
 import { addWorkoutToState, addExerciseToState, markAsComplete } from "../../context/WorkoutsHelpers";
 import { useNavigate } from "react-router-dom";
 
 const Workout = () => {
 
-    const { savedWorkouts, setSavedWorkouts, periodKeysData, setPeriodKeysData} = useContext(WorkoutsContext);
+    const { savedWorkouts, setSavedWorkouts, updatePeriodKeys} = useContext(WorkoutsContext);
     const [ isNewExercisePanelVisible, setIsNewExercisePanelVisible ] = useState(false);
     const navigate = useNavigate();
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const workoutId: string = urlParams.get('id') as string;
@@ -32,37 +30,29 @@ const Workout = () => {
     }, [currentWorkout])
 
     const handleAddNewExercise = (exerciseToAdd: ExerciseType) => {
-        const exerciseData = {
-            newExercise: exerciseToAdd,
-            id: workoutId
-        }
-        let updatetedStateData = [];
+        let updatedStateData = [];
         if (currentWorkout) {
-            updatetedStateData = addExerciseToState(exerciseData, savedWorkouts);
-        } else {
-            updatetedStateData = addWorkoutToState(exerciseData, savedWorkouts);
-            const currentDate = new Date();
-            const currentMonthsStorageKey = `workouts_${currentDate.getMonth() + 1}_${currentDate.getFullYear()}`;
-            if ((periodKeysData.keyData.length === 0) || ((periodKeysData.keyData.length > 0) && (periodKeysData.keyData[0].periodKey !== currentMonthsStorageKey))) {
-                const newKeyData = {
-                    periodKey: currentMonthsStorageKey, month: currentDate.toLocaleString('default', { month: 'long' })
-                }
-                const newLocalKeyData = [
-                    newKeyData, ...periodKeysData.keyData
-                ]
-                localStorage.setItem('workoutPeriodKeys', JSON.stringify(newLocalKeyData));
-                setPeriodKeysData(prevState => {
-                    return { keyData: [newKeyData, ...prevState.keyData], currentShowing: prevState.currentShowing + 1 };
-                })
+            const exerciseData = {
+                newExercise: exerciseToAdd,
+                id: workoutId
             }
+            updatedStateData = addExerciseToState(exerciseData, savedWorkouts);
+        } else {
+            const exerciseData = {
+                newExercises: [exerciseToAdd],
+                id: workoutId
+            }
+            updatedStateData = addWorkoutToState(exerciseData, savedWorkouts, '', null);
+            updatePeriodKeys();
+            
         }
-        setSavedWorkouts(updatetedStateData);
+        setSavedWorkouts(updatedStateData);
         setIsNewExercisePanelVisible(false);
     }
     const handleComplete = () => {
         if(currentWorkout) {
-            const updatetedStateData = markAsComplete(currentWorkout.id, savedWorkouts);
-            setSavedWorkouts(updatetedStateData);
+            const updatedStateData = markAsComplete(currentWorkout.id, savedWorkouts);
+            setSavedWorkouts(updatedStateData);
             navigate("/workouts");
         }
     }
@@ -77,14 +67,9 @@ const Workout = () => {
             <ul className="box-list box-list--single-col">
                 {currentWorkout && 
                     currentWorkout.exerciseList.map(exercise => {
-                        const id = exercise.id;
+                        const previousExercise = currentWorkout.previousExercises ? currentWorkout.previousExercises.find(item => item.name === exercise.name) as ExerciseType : null;
                         return (
-                            <li key={currentWorkout.id}>
-                                <div className={styles.workout__item} key={id}>
-                                    <h2 className={styles.workout__exerciseName}>{exercise.name}</h2>
-                                    <Sets exercise={exercise} workoutId={workoutId}></Sets>
-                                </div>
-                            </li>
+                            <WorkoutExercise key={exercise.id} exercise={exercise} previousId={currentWorkout.previousId} workoutId={workoutId} previousExercise={previousExercise} />
                         )
                     })
                 }

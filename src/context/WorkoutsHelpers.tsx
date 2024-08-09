@@ -5,6 +5,10 @@ type ExerciseData = {
     newExercise: ExerciseType;
     id: string;
 }
+type ExerciseListData = {
+    newExercises: ExerciseType[];
+    id: string;
+}
 type SetData = {
     workoutId: string;
     exerciseId: string;
@@ -31,15 +35,17 @@ export const saveToLocalStorage = (workoutDataToSave: SavedWorkoutsType) => {
     localStorage.setItem(currentMonthsStorageKey, JSON.stringify(workoutsToSave));
 }
 
-export const addWorkoutToState = (newData: ExerciseData, state: SavedWorkoutsType) => {
+export const addWorkoutToState = (newData: ExerciseListData, state: SavedWorkoutsType, previousId: string, previousExercises: ExerciseType[] | null) => {
     const date = new Date();
     const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
     const updatedData = [
         ...state, {
             id: newData.id,
+            previousId: previousId,
+            previousExercises: previousExercises,
             date: dateString,
             inProgress: true,
-            exerciseList: [newData.newExercise]
+            exerciseList: newData.newExercises
         }
     ]
     saveToLocalStorage(updatedData);

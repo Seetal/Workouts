@@ -31,8 +31,8 @@ const SetItem = ({ set, exerciseId, workoutId }: Props) => {
             key: key,
             value: value
         }
-        const updatetedStateData = updateValuesToState(exerciseData, savedWorkouts);
-        setSavedWorkouts(updatetedStateData);
+        const updatedStateData = updateValuesToState(exerciseData, savedWorkouts);
+        setSavedWorkouts(updatedStateData);
     }
 
     return (

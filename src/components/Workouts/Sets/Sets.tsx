@@ -23,8 +23,8 @@ const Sets = ({ exercise, workoutId }: Props) => {
             workoutId: workoutId,
             exerciseId: exercise.id
         }
-        const updatetedStateData = addSetToState(exerciseData, savedWorkouts);
-        setSavedWorkouts(updatetedStateData);
+        const updatedStateData = addSetToState(exerciseData, savedWorkouts);
+        setSavedWorkouts(updatedStateData);
     }
 
     return (

@@ -61,7 +61,6 @@ const PreviousWorkouts = () => {
         }
         if ((i === sortedWorkouts.length - 1)) {
             currentItem.id = `${item.id}abc`;
-            console.log(`AAAA ${item.id}abc`)
             const clonedCurrentItem = {...currentItem};
             arrangedList.push(clonedCurrentItem);
             currentItem.items = [];
@@ -69,7 +68,6 @@ const PreviousWorkouts = () => {
 
         if (itemDate.getMonth() !== currentMonth) {
             currentItem.id = `${currentId}abc`;
-            console.log(`BBBB ${currentId}abc`)
             const clonedCurrentItem = {...currentItem};
             arrangedList.push(clonedCurrentItem);
             currentItem.items = [];
