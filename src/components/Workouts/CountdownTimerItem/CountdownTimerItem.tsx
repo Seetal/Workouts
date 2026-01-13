@@ -13,10 +13,14 @@ const CountdownTimerItem = ({ time }: Props) => {
   const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
   const [timerIsRunning, setTimerIsRunning] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<number>();
-  const { allowWakeLock } = useWakeLock();
+  const { allowWakeLock, disableWakeLock } = useWakeLock();
 
   useEffect(() => {
     allowWakeLock();
+    return () => {
+      // Cleanup code executed when component unmounts
+      disableWakeLock();
+    };
   }, []);
 
   useEffect(() => {
@@ -25,7 +29,6 @@ const CountdownTimerItem = ({ time }: Props) => {
   }, [time]);
 
   useEffect(() => {
-    console.log('Decrementing time', secondsRemaining);
     if (secondsRemaining === 0) {
       if (intervalId) {
         clearInterval(intervalId);
@@ -59,7 +62,6 @@ const CountdownTimerItem = ({ time }: Props) => {
   };
 
   const handleCancel = () => {
-    console.log('Cancelling timer');
     if (intervalId) {
       clearInterval(intervalId);
     }
