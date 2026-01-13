@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-//import useWakeLock from '../../../hooks/useWakeLock';
+import useWakeLock from '../../../hooks/useWakeLock';
 import styles from './CountdownTimerItem.module.scss';
 // @ts-expect-error - ignore missing type definitions
 import useSound from 'use-sound';
@@ -13,7 +13,12 @@ const CountdownTimerItem = ({ time }: Props) => {
   const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
   const [timerIsRunning, setTimerIsRunning] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<number>();
-  //const { allowWakeLock, disableWakeLock } = useWakeLock();
+  const { allowWakeLock } = useWakeLock();
+
+  useEffect(() => {
+    allowWakeLock();
+  }, []);
+
   useEffect(() => {
     const seconds = parseInt(time) * 60;
     setSecondsRemaining(seconds);
