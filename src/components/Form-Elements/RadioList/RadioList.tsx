@@ -1,6 +1,5 @@
 import styles from './RadioList.module.scss';
 import Radio from '../Radio/Radio';
-import { useCreateRadioData } from '../../../hooks/useCreateRadioData';
 
 type NewIntervalType = {
     value: string 
