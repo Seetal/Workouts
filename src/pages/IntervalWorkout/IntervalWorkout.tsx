@@ -16,7 +16,6 @@ const IntervalWorkout = () => {
     const currentInterval = savedIntervals.find(intervalItem => intervalItem.id === id) as IntervalType;
 
     const timingArray = generateTimingArray(currentInterval);
-
     const finishedHandler = () => {
         setIsFinished(true);
         handleUpdateInterval(currentInterval);

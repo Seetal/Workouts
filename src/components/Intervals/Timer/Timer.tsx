@@ -5,7 +5,7 @@ import TimerDetails from "../TimerDetails/TimerDetails";
 import PauseTimer from "../PauseTimer/PauseTimer";
 import { TimingArray } from "../../../types/TimingArrayType";
 import { ModalContext } from "../../Generic/Modal/ModalContext";
-//@ts-ignore
+// @ts-expect-error - ignore missing type definitions
 import useSound from 'use-sound';
 import beepSfx from '../../../assets/sounds/beep.mp3';
 import boopSfx from '../../../assets/sounds/boop.mp3';

@@ -1,0 +1,9 @@
+@use '../../../scss/mediaqueries';
+
+.countdownTimerItem {
+    font-size: 4rem;
+    line-height: 1.25;
+    font-weight: 200;
+    color: var(--clr-white);
+    font-family: 'Courier New', Courier, monospace;
+}

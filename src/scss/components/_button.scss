@@ -33,6 +33,7 @@
     }
     &--red {
         background-color: var(--clr-red);
+        color: var(--clr-white);
         &:hover {
             background-color: var(--clr-red-secondary);
         }

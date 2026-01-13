@@ -4,6 +4,7 @@ import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 import TextInput from "../../components/Form-Elements/TextInput/TextInput";
 import IntervalSubmitted from "../../components/Intervals/IntervalSubmitted/IntervalSubmitted";
 import NewIntervalSummary from "../../components/Intervals/NewIntervalSummary/NewIntervalSummary";
+import { useCreateRadioData } from "../../hooks/useCreateRadioData";
 import styles from './NewInterval.module.scss';
 import { Config } from "../../config/Config";
 import { NewIntervalInitialData } from "../../data/NewIntervalInitialData";
@@ -43,6 +44,10 @@ const initialState = {
 }
 
 const NewInterval = () => {
+    const workLengthData = useCreateRadioData({ name: 'work', option: Config.newInterval.maxWork, accumulator: 5 });
+    const restLengthData = useCreateRadioData({ name: 'rest', option: Config.newInterval.maxRest, accumulator: 5 });
+    const roundsData = useCreateRadioData({ name: 'rounds', option: Config.newInterval.maxRounds, accumulator: 1 });
+    const setsData = useCreateRadioData({ name: 'sets', option: Config.newInterval.maxSets, accumulator: 1 });
     const { savedIntervals, handleAddInterval } = useContext(IntervalsContext);
     const { handleFadeOn } = useContext(ModalContext);
     const [newIntervalData, setNewIntervalData] = useState(NewIntervalInitialData);
@@ -125,16 +130,16 @@ const NewInterval = () => {
                                 handler={handleChange}/>
                         </ContentBlock>
                         <ContentBlock isCentered={false}>
-                            <RadioList option={Config.newInterval.maxWork} accumulator={5} name="work" legend="Work length (secs)" handler={handleChange} newIntervalData={newIntervalData.work}/>
+                            <RadioList name="work" radioData={workLengthData} legend="Work length (secs)" handler={handleChange} newIntervalData={newIntervalData.work}/>
                         </ContentBlock>
                         <ContentBlock isCentered={false}>
-                            <RadioList option={Config.newInterval.maxRest} accumulator={5} name="rest" legend="Rest length (secs)" handler={handleChange} newIntervalData={newIntervalData.rest}/>
+                            <RadioList name="rest" radioData={restLengthData} legend="Rest length (secs)" handler={handleChange} newIntervalData={newIntervalData.rest}/>
                         </ContentBlock>
                         <ContentBlock isCentered={false}>
-                            <RadioList option={Config.newInterval.maxRounds} accumulator={1} name="rounds" legend="Number of rounds" handler={handleChange} newIntervalData={newIntervalData.rounds}/>
+                            <RadioList name="rounds" radioData={roundsData} legend="Number of rounds" handler={handleChange} newIntervalData={newIntervalData.rounds}/>
                         </ContentBlock>
                         <ContentBlock isCentered={false}>
-                            <RadioList option={Config.newInterval.maxSets} accumulator={1} name="sets" legend="Number of sets"  handler={handleChange} newIntervalData={newIntervalData.sets}/>
+                            <RadioList name="sets" radioData={setsData} legend="Number of sets"  handler={handleChange} newIntervalData={newIntervalData.sets}/>
                         </ContentBlock>
                     </div>
                     <NewIntervalSummary data={newIntervalData} addHandler={addHandler}/>

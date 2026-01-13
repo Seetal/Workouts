@@ -12,15 +12,17 @@ type NewIntervalType = {
 type Props = {
     name: string
     legend: string
-    option: number
-    accumulator: number
+    radioData: {
+        keyId: string;
+        label: string;
+        id: string;
+    }[]
     handler: (e: React.ChangeEvent<HTMLInputElement>) => void;
     newIntervalData: NewIntervalType
 }
 
 
-const RadioList = ({ name, legend, option, accumulator, handler, newIntervalData }: Props ) => {
-    const radioData = useCreateRadioData({name, option, accumulator});
+const RadioList = ({ name, legend, radioData, handler, newIntervalData }: Props ) => {
 
     const listElements = radioData.map((item) => {
         return (

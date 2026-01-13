@@ -4,6 +4,7 @@ import NewExercise from "../../components/Workouts/NewExercise/NewExercise";
 import AddExercise from "../../components/Workouts/AddExercise/AddExercise";
 import ContentBlock from "../../components/Generic/ContentBlock/ContentBlock";
 import WorkoutExercise from "../../components/Workouts/WorkoutExercise/WorkoutExercise";
+import CountdownTimer from "../../components/Workouts/CountdownTimer/CountdownTimer";
 import { ExerciseType } from "../../types/ExerciseType";
 import { addWorkoutToState, addExerciseToState, markAsComplete } from "../../context/WorkoutsHelpers";
 import { useNavigate } from "react-router-dom";
@@ -84,6 +85,7 @@ const Workout = () => {
                 </ContentBlock>
                 </>
             }
+            <CountdownTimer />
         </main>
     )
 }

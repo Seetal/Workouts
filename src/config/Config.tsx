@@ -1,3 +1,5 @@
+import { Value } from "sass";
+
 export const Config = {
     navData: [
         {
@@ -24,5 +26,12 @@ export const Config = {
     coolDownTime: 10,
     timerCircumference: 829.38,
     // Number of days into months, if less than this then also show previous months workouts
-    daysThresholdPreviousWorkouts: 10
+    daysThresholdPreviousWorkouts: 10,
+    countdownTimerOptions: [
+        { keyId: 'ct-1', label: '1', id: '1', value: 1},
+        { keyId: 'ct-2', label: '2', id: '2', value: 2},
+        { keyId: 'ct-3', label: '3', id: '3', value: 3},
+        { keyId: 'ct-4', label: '4', id: '4', value: 4},
+        { keyId: 'ct-5', label: '5', id: '5', value: 5},
+    ]
 }
