@@ -10,6 +10,7 @@ body {
 main {
   @include bp-700 {
     padding: 1rem;
+    position: relative;
   }
 }
 

@@ -38,4 +38,8 @@
             background-color: var(--clr-red-secondary);
         }
     }
+    &--disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }

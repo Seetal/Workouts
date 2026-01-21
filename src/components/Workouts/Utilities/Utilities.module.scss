@@ -1,0 +1,65 @@
+@use '../../../scss/mediaqueries';
+
+.utilities {
+  position: fixed;
+  display: flex;
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-blue-secondary);
+  right: -6rem;
+  bottom: 5rem;
+  width: auto;
+  height: 3rem;
+  z-index: 20;
+  border-radius: 1rem 0 0 1rem;
+  border: 0;
+  transition: right 0.3s ease-in-out;
+  @include mediaqueries.bp-700 {
+    position: absolute;
+    top: -5.875rem;
+    right: 1rem;
+    gap: 0.5rem;
+    background-color: transparent;
+  }
+  &.open {
+    right: 0;
+    @include mediaqueries.bp-700 {
+      right: 1rem;
+    }
+  }
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    background-color: var(--clr-blue);
+    cursor: pointer;
+    @include mediaqueries.bp-700 {
+      border-radius: 0.75rem;
+    }
+  }
+  &__btnMenu {
+    border-radius: 1rem 0 0 1rem;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.925rem;
+    @include mediaqueries.bp-700 {
+      display: none;
+    }
+  }
+  &__menuLine {
+    width: 100%;
+    height: 2px;
+    background-color: var(--clr-black);
+  }
+  &__icon {
+    width: 1.5rem;
+    height: auto;
+    path {
+      fill: var(--clr-black);
+    }
+  }
+}

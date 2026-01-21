@@ -51,12 +51,10 @@ const CountdownTimerItem = ({ time }: Props) => {
 
   const renderedTime = generateRenderedTime(secondsRemaining);
 
-  const decrementTime = () => {
-    setSecondsRemaining((prevState) => (prevState) - 1);
-  };
-
   const handleStart = () => {
-    const timer = window.setInterval(decrementTime, 1000);
+    const timer = window.setInterval(() => {
+      setSecondsRemaining((prevState) => (prevState) - 1);
+    }, 1000);
     setIntervalId(timer);
     setTimerIsRunning(true);
   };
