@@ -11,11 +11,13 @@ const StopWatch = ({isStopWatchOpen, handleCloseStopWatch}: Props) => {
   const [intervalId, setIntervalId] = useState<number>();
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  
+  const renderedTime = elapsedSeconds.toFixed(1);
 
   const handleStart = () => {
     const timer = window.setInterval(() => {
-      setElapsedSeconds((prev) => prev + 1);
-    }, 1000);
+      setElapsedSeconds((prev) => prev + 0.1);
+    }, 100);
     setIntervalId(timer);
     setIsRunning(true);
   };
@@ -47,7 +49,7 @@ const StopWatch = ({isStopWatchOpen, handleCloseStopWatch}: Props) => {
           title="Stop Watch"
           >
             <>
-              <p className={styles.stopWatch__time}>{elapsedSeconds}</p>
+              <p className={styles.stopWatch__time}>{renderedTime}</p>
               <div className={styles.stopWatch__buttons}>
                 {!isRunning && <button className="button" onClick={handleStart}>Start</button>}
                 {isRunning && <button className="button button--red" onClick={handleStop}>Stop</button>}
