@@ -20,7 +20,7 @@ const WorkoutExercise = ({ exercise, workoutId, previousId, previousExercise }: 
 
 	return (
 		<li key={exercise.id} className="box-list__item">
-			<div className={`${styles.workoutExercise__item} ${isHistoryVisible && styles.showHistory}`}>
+			<div className={styles.workoutExercise__item}>
 				<h2 className={styles.workoutExercise__exerciseName}>{exercise.name}</h2>
 				{previousId && 
 					<button 

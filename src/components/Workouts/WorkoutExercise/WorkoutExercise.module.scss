@@ -44,35 +44,28 @@
         }
     }
     &__historyBtn {
-        position: absolute;
-        top: 1.5rem;
-        right: 1rem;
-		width: 2rem;
-		height: 2.2rem;
-		padding: 0.3rem;
-		line-height: 0;
-		border: 0;
-		background-color: transparent;
-		transition: transform .4s ease;
-		@include mediaqueries.bp-700 {
-			top: 0.6rem;
+			position: absolute;
+			top: 1.5rem;
+			right: 1rem;
+			height: 2.2rem;
 			width: 2.4rem;
 			padding: 0.3rem 0.5rem;
+			line-height: 0;
+			border: 1px solid transparent;
+			background-color: transparent;
 			border-radius: 0.4rem 0.4rem 0 0;
-			border-top: 1px solid var(--clr-black);
-			border-right: 1px solid var(--clr-black);
-			border-left: 1px solid var(--clr-black);
-		}
-		&.showHistory {
-			transform: rotate(-270deg);
 			@include mediaqueries.bp-700 {
-				transform: none;
+				top: 0.6rem;
+				border-top: 1px solid var(--clr-black);
+				border-right: 1px solid var(--clr-black);
+				border-left: 1px solid var(--clr-black);
+			}
+			&.showHistory {
 				background-color: var(--clr-light-black);
 				border-top: 1px solid var(--clr-dark-grey);
 				border-right: 1px solid var(--clr-dark-grey);
 				border-left: 1px solid var(--clr-dark-grey);
 			}
-		}
     }
 	&__historyIcon {
 		width: 100%;
